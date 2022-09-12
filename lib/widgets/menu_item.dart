@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../models/menu_item_model.dart';
 import '../pages/custom_scroll_view_page.dart';
 
-class MenuItem extends StatelessWidget {
+class MainMenuItem extends StatelessWidget {
   final MenuItemModel menuItem;
 
-  const MenuItem(
+  const MainMenuItem(
     this.menuItem, {
     Key? key,
   }) : super(key: key);

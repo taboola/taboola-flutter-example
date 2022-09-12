@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
         '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
         '/customscrollviewfeed': (context) => const CustomScrollViewPage(),
       },
-      // home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -59,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) => Padding(
                   padding: const EdgeInsets.only(bottom: 20),
-                  child: MenuItem(
+                  child: MainMenuItem(
                     menuItems[index],
                   ),
                 ),
