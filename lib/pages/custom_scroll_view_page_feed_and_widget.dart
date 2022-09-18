@@ -4,8 +4,8 @@ import 'package:taboola_sdk/taboola.dart';
 import 'package:taboola_sdk/standard/taboola_standard_listener.dart';
 import 'package:taboola_sdk/standard/taboola_standard.dart';
 
-class CustomScrollViewPage extends StatelessWidget {
-  const CustomScrollViewPage({Key? key}) : super(key: key);
+class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
+  const CustomScrollViewPageFeedAndWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,10 @@ class CustomScrollViewPage extends StatelessWidget {
 
     TaboolaStandard taboolaStandard = taboolaStandardBuilder.build(
         "Feed without video", "thumbs-feed-01", true, taboolaStandardListener);
+        
+    TaboolaStandard taboolaStandardWidget = taboolaStandardBuilder.build(
+        "mid article widget", "alternating-1x2-widget", true, taboolaStandardListener);
+
 
     return Scaffold(
         appBar: AppBar(
@@ -39,10 +43,23 @@ class CustomScrollViewPage extends StatelessWidget {
                 height: 50,
                 child: Text('List Item $index'),
               );
-            }, childCount: 20)),
+            }, childCount: 10)),
+            SliverToBoxAdapter(
+              child: taboolaStandardWidget,
+            ),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+              return Container(
+                alignment: Alignment.center,
+                color: Colors.lightBlue[100 * (index % 9)],
+                height: 50,
+                child: Text('List Item $index'),
+              );
+            }, childCount: 10)),
             SliverToBoxAdapter(
               child: taboolaStandard,
-            ),
+            ),                        
           ],
         ));
   }

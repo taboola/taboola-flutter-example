@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/menu_item_model.dart';
-import '../pages/custom_scroll_view_page.dart';
+import '../pages/custom_scroll_view_page_feed.dart';
+import '../pages/custom_scroll_view_page_feed_and_widget.dart';
+
 
 class MainMenuItem extends StatelessWidget {
   final MenuItemModel menuItem;

@@ -8,7 +8,7 @@ class MenuItemRepository {
         MenuItemModel(
           title: 'SliverList Widget + Feed',
           itemColor: Color.fromRGBO(181, 230, 235, 1),
-          routeName: '/customscrollviewfeed',
+          routeName: '/customscrollviewfeedAndWidget',
         ),
         MenuItemModel(
           title: 'SliverGrid Feed',
