@@ -7,23 +7,58 @@ import 'package:taboola_sdk/classic/taboola_classic.dart';
 bool shouldDisplayTaboolaFeed = false;
 TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
 const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
+TaboolaClassicBuilder taboolaClassicBuilder = Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
+TaboolaClassicListener taboolaClassicListener = TaboolaClassicListener(taboolaDidResize,taboolaDidShow,taboolaDidFailToLoad,taboolaDidClickOnItem);
+TaboolaClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build("Feed without video", "thumbs-feed-01", true, taboolaClassicListener,viewId: viewID);
+
 const viewID = 123;
+
+
 
 class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
   const CustomScrollViewPageFeedAndWidget({Key? key}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
+
+    Taboola.init(PublisherInfo("sdk-tester-rnd"));
+    
+    TaboolaClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build("mid article widget","alternating-1x2-widget",false,taboolaClassicListener,viewId: viewID);
+        
     shouldDisplayTaboolaFeed = false;
     widgetsState = TaboolaWidgetsState();
-    return (const TaboolaWidgets());
+    //return (const TaboolaWidgets());
+     return Scaffold(
+        appBar: AppBar(
+          title: Text("Sliver List with Widget & Feed"),
+        ),
+        body: CustomScrollView(
+          controller: shouldDisplayTaboolaFeed
+              ? taboolaClassicfeed.scrollController
+              : null,
+          slivers: <Widget>[
+                  SliverToBoxAdapter(
+              child: taboolaClassicUnit,
+            ),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+              return Container(
+                alignment: Alignment.center,
+                color: Colors.lightBlue[100 * (index % 9)],
+                height: 50,
+                child: Text('List Item $index'),
+              );
+            }, childCount: 10)),
+      const TaboolaWidgets()
+          ],
+        ));
   }
 }
 
 class TaboolaWidgets extends StatefulWidget {
     const TaboolaWidgets({Key? key}) : super(key: key);
     
-
   @override
   State<StatefulWidget> createState() => widgetsState;
 }
@@ -37,61 +72,7 @@ class TaboolaWidgetsState extends State<TaboolaWidgets> {
 
   @override
   Widget build(BuildContext context) {
-
-    Taboola.init(PublisherInfo("sdk-tester-rnd"));
-    TaboolaClassicBuilder taboolaClassicBuilder =
-        Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
-    TaboolaClassicListener taboolaClassicListener = TaboolaClassicListener(
-        taboolaDidResize,
-        taboolaDidShow,
-        taboolaDidFailToLoad,
-        taboolaDidClickOnItem);
-    TaboolaClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build(
-        "mid article widget",
-        "alternating-1x2-widget",
-        false,
-        taboolaClassicListener,
-        viewId: viewID);
-    TaboolaClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build(
-        "Feed without video", "thumbs-feed-01", true, taboolaClassicListener,
-        viewId: viewID);
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Sliver List with Widget & Feed"),
-        ),
-        body: CustomScrollView(
-          controller: shouldDisplayTaboolaFeed
-              ? taboolaClassicfeed.scrollController
-              : null,
-          slivers: <Widget>[
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-              return Container(
-                alignment: Alignment.center,
-                color: Colors.lightBlue[100 * (index % 9)],
-                height: 50,
-                child: Text('List Item $index'),
-              );
-            }, childCount: 10)),
-            SliverToBoxAdapter(
-              child: taboolaClassicUnit,
-            ),
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-              return Container(
-                alignment: Alignment.center,
-                color: Colors.lightBlue[100 * (index % 9)],
-                height: 50,
-                child: Text('List Item $index'),
-              );
-            }, childCount: 10)),
-            SliverToBoxAdapter(
-                child: shouldDisplayTaboolaFeed ? taboolaClassicfeed : EmptyWidget()),
-          ],
-        ));
+    return SliverToBoxAdapter(child: shouldDisplayTaboolaFeed ? taboolaClassicfeed : EmptyWidget());
   }
 }
 
