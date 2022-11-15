@@ -58,7 +58,7 @@ class TaboolaWidgetsState extends State<TaboolaWidgets> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("CustoScrollView with Feed"),
+          title: Text("Sliver List with Widget & Feed"),
         ),
         body: CustomScrollView(
           controller: shouldDisplayTaboolaFeed
@@ -99,7 +99,7 @@ class EmptyWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    return Container(color: Colors.green );
+    return Container(color: Colors.green, height: 10,);
   }
 
 }

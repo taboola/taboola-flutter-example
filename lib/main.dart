@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taboola_flutter_example/pages/custom_scroll_view_page_feed.dart';
+import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dart';
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_feed_and_widget.dart';
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
-        '/customscrollviewfeed': (context) => const CustomScrollViewPageFeed(),
+        '/customscrollviewWidget': (context) => const CustomScrollViewPageWidget(),
         '/customscrollviewfeedAndWidget': (context) => const CustomScrollViewPageFeedAndWidget(),
       },
     );

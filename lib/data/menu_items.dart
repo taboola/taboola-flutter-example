@@ -11,9 +11,9 @@ class MenuItemRepository {
           routeName: '/customscrollviewfeedAndWidget',
         ),
         MenuItemModel(
-          title: 'SliverGrid Feed',
+          title: 'SliverGrid Widget',
           itemColor: AppColors.green,
-          routeName: '/customscrollviewfeed',
+          routeName: '/customscrollviewWidget',
         ),
       ];
 }
