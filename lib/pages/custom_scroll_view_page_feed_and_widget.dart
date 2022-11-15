@@ -1,38 +1,65 @@
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
 import 'package:taboola_sdk/taboola.dart';
-import 'package:taboola_sdk/standard/taboola_standard_listener.dart';
-import 'package:taboola_sdk/standard/taboola_standard.dart';
+import 'package:taboola_sdk/classic/taboola_classic_listener.dart';
+import 'package:taboola_sdk/classic/taboola_classic.dart';
+
+bool shouldDisplayTaboolaFeed = false;
+TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
+const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
 
 class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
   const CustomScrollViewPageFeedAndWidget({Key? key}) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    widgetsState = TaboolaWidgetsState();
+    return (const TaboolaWidgets());
+  }
+}
+
+class TaboolaWidgets extends StatefulWidget {
+    const TaboolaWidgets({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => widgetsState;
+}
+
+class TaboolaWidgetsState extends State<TaboolaWidgets> {
+  void enableFeedDisplay() {
+    setState(() {
+      shouldDisplayTaboolaFeed = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Taboola.init(PublisherInfo("sdk-tester-rnd"));
-
-    TaboolaStandardBuilder taboolaStandardBuilder =
-        Taboola.getTaboolaStandardBuilder("http://www.example.com", "article");
-
-    TaboolaStandardListener taboolaStandardListener = TaboolaStandardListener(
+    TaboolaClassicBuilder taboolaClassicBuilder =
+        Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
+    TaboolaClassicListener taboolaClassicListener = TaboolaClassicListener(
         taboolaDidResize,
         taboolaDidShow,
         taboolaDidFailToLoad,
         taboolaDidClickOnItem);
-
-    TaboolaStandard taboolaStandard = taboolaStandardBuilder.build(
-        "Feed without video", "thumbs-feed-01", true, taboolaStandardListener);
-        
-    TaboolaStandard taboolaStandardWidget = taboolaStandardBuilder.build(
-        "mid article widget", "alternating-1x2-widget", true, taboolaStandardListener);
-
+    TaboolaClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build(
+        "mid article widget",
+        "alternating-1x2-widget",
+        false,
+        taboolaClassicListener,
+        viewId: 123);
+    TaboolaClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build(
+        "Feed without video", "thumbs-feed-01", true, taboolaClassicListener,
+        viewId: 123);
 
     return Scaffold(
         appBar: AppBar(
           title: Text("CustoScrollView with Feed"),
         ),
         body: CustomScrollView(
-          controller: taboolaStandard.scrollController,
+          controller: shouldDisplayTaboolaFeed
+              ? taboolaClassicfeed.scrollController
+              : null,
           slivers: <Widget>[
             SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -45,7 +72,7 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
               );
             }, childCount: 10)),
             SliverToBoxAdapter(
-              child: taboolaStandardWidget,
+              child: taboolaClassicUnit,
             ),
             SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -58,16 +85,26 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
               );
             }, childCount: 10)),
             SliverToBoxAdapter(
-              child: taboolaStandard,
-            ),                        
+                child: shouldDisplayTaboolaFeed ? taboolaClassicfeed : EmptyWidget()),
           ],
         ));
   }
 }
 
-//Taboola Standard listeners
+class EmptyWidget extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(color: Colors.green );
+  }
+
+}
+
+//Taboola classic listeners
 void taboolaDidShow(String placement) {
   print("taboolaDidShow");
+  widgetsState.enableFeedDisplay();
+  
 }
 
 void taboolaDidResize(String placement, double height) {

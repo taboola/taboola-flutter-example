@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:taboola_sdk/taboola.dart';
-import 'package:taboola_sdk/standard/taboola_standard_listener.dart';
-import 'package:taboola_sdk/standard/taboola_standard.dart';
+import 'package:taboola_sdk/classic/taboola_classic_listener.dart';
+import 'package:taboola_sdk/classic/taboola_classic.dart';
 
 class CustomScrollViewPageFeed extends StatelessWidget {
   const CustomScrollViewPageFeed({Key? key}) : super(key: key);
@@ -11,24 +11,18 @@ class CustomScrollViewPageFeed extends StatelessWidget {
   Widget build(BuildContext context) {
     Taboola.init(PublisherInfo("sdk-tester-rnd"));
 
-    TaboolaStandardBuilder taboolaStandardBuilder =
-        Taboola.getTaboolaStandardBuilder("http://www.example.com", "article");
+    TaboolaClassicBuilder taboolaClassicBuilder = Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
 
-    TaboolaStandardListener taboolaStandardListener = TaboolaStandardListener(
-        taboolaDidResize,
-        taboolaDidShow,
-        taboolaDidFailToLoad,
-        taboolaDidClickOnItem);
+     TaboolaClassicListener taboolaClassicListener = TaboolaClassicListener(taboolaDidResize, taboolaDidShow, taboolaDidFailToLoad, taboolaDidClickOnItem);
 
-    TaboolaStandard taboolaStandard = taboolaStandardBuilder.build(
-        "Feed without video", "thumbs-feed-01", true, taboolaStandardListener);
+     TaboolaClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build("Feed without video", "thumbs-feed-01", true,taboolaClassicListener, viewId: 2);
 
     return Scaffold(
         appBar: AppBar(
           title: Text("CustoScrollView with Feed"),
         ),
         body: CustomScrollView(
-          controller: taboolaStandard.scrollController,
+          controller: taboolaClassicfeed.scrollController,
           slivers: <Widget>[
             SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -41,7 +35,7 @@ class CustomScrollViewPageFeed extends StatelessWidget {
               );
             }, childCount: 20)),
             SliverToBoxAdapter(
-              child: taboolaStandard,
+              child: taboolaClassicfeed,
             ),
           ],
         ));
