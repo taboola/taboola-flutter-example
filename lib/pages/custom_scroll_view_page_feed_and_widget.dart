@@ -7,12 +7,14 @@ import 'package:taboola_sdk/classic/taboola_classic.dart';
 bool shouldDisplayTaboolaFeed = false;
 TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
 const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
+const viewID = 123;
 
 class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
   const CustomScrollViewPageFeedAndWidget({Key? key}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
+    shouldDisplayTaboolaFeed = false;
     widgetsState = TaboolaWidgetsState();
     return (const TaboolaWidgets());
   }
@@ -20,6 +22,7 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
 
 class TaboolaWidgets extends StatefulWidget {
     const TaboolaWidgets({Key? key}) : super(key: key);
+    
 
   @override
   State<StatefulWidget> createState() => widgetsState;
@@ -34,6 +37,7 @@ class TaboolaWidgetsState extends State<TaboolaWidgets> {
 
   @override
   Widget build(BuildContext context) {
+
     Taboola.init(PublisherInfo("sdk-tester-rnd"));
     TaboolaClassicBuilder taboolaClassicBuilder =
         Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
@@ -47,10 +51,10 @@ class TaboolaWidgetsState extends State<TaboolaWidgets> {
         "alternating-1x2-widget",
         false,
         taboolaClassicListener,
-        viewId: 123);
+        viewId: viewID);
     TaboolaClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build(
         "Feed without video", "thumbs-feed-01", true, taboolaClassicListener,
-        viewId: 123);
+        viewId: viewID);
 
     return Scaffold(
         appBar: AppBar(
@@ -102,8 +106,10 @@ class EmptyWidget extends StatelessWidget{
 
 //Taboola classic listeners
 void taboolaDidShow(String placement) {
-  print("taboolaDidShow");
+  print("taboolaDidShow" );
+  if(shouldDisplayTaboolaFeed == false){
   widgetsState.enableFeedDisplay();
+  }
   
 }
 
