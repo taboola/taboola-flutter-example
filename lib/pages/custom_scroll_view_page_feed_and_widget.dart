@@ -1,4 +1,6 @@
 
+// ignore_for_file: avoid_print, import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:taboola_sdk/taboola.dart';
 import 'package:taboola_sdk/classic/taboola_classic_listener.dart';
@@ -30,7 +32,7 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
     //return (const TaboolaWidgets());
      return Scaffold(
         appBar: AppBar(
-          title: Text("Sliver List with Widget & Feed"),
+          title: const Text("Sliver List with Widget & Feed"),
         ),
         body: CustomScrollView(
           controller: shouldDisplayTaboolaFeed
@@ -72,15 +74,17 @@ class TaboolaWidgetsState extends State<TaboolaWidgets> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(child: shouldDisplayTaboolaFeed ? taboolaClassicfeed : EmptyWidget());
+    return SliverToBoxAdapter(child: shouldDisplayTaboolaFeed ? taboolaClassicfeed : const EmptyWidget());
   }
 }
 
 class EmptyWidget extends StatelessWidget{
+  const EmptyWidget({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
 
-    return Container(color: Colors.green, height: 10,);
+    return Container(color: Colors.blue, height: 100,child: const Text("Feed Container"),alignment: Alignment.center);
   }
 
 }
