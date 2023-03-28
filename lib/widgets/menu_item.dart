@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/menu_item_model.dart';
-import '../pages/custom_scroll_view_page_widget.dart';
+import '../pages/custom_list_view_page_widget.dart';
 import '../pages/custom_scroll_view_page_feed_and_widget.dart';
 
 

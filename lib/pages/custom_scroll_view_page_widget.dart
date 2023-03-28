@@ -15,7 +15,7 @@ class CustomScrollViewPageWidget extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("Sliver Grid With Widget"),
+          title: const Text("Sliver Grid With Widget"),
         ),
         body: CustomScrollView(
           slivers: <Widget>[

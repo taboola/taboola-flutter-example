@@ -15,5 +15,10 @@ class MenuItemRepository {
           itemColor: AppColors.green,
           routeName: '/customscrollviewWidget',
         ),
+        MenuItemModel(
+          title: 'ListView Widget',
+          itemColor: Color.fromARGB(255, 67, 240, 177),
+          routeName: '/customlistviewfeedAndWidget',
+        ),
       ];
 }

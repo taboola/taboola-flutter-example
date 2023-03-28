@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dart';
+import 'package:taboola_flutter_example/pages/custom_list_view_page_widget.dart';
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_feed_and_widget.dart';
+import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dart';
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
 
 import 'data/menu_items.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
         '/customscrollviewWidget': (context) => const CustomScrollViewPageWidget(),
         '/customscrollviewfeedAndWidget': (context) => const CustomScrollViewPageFeedAndWidget(),
+        '/customlistviewfeedAndWidget': (context) =>  CustomListViewPageFeedAndWidget(),
       },
     );
   }
