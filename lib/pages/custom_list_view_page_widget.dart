@@ -7,7 +7,7 @@ import 'package:taboola_sdk/classic/taboola_classic_listener.dart';
 import 'package:taboola_sdk/classic/taboola_classic.dart';
 
 TaboolaClassicBuilder taboolaClassicBuilder =
-Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
+    Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
 
 final List<String> items = List.generate(10, (index) => "Item $index");
 
@@ -61,13 +61,17 @@ Container setContainer(int index, scroll) {
 
 Widget setListContent(int index, ScrollController scroll) {
   if (index == 5) {
-
-    return const ClassicUnitWrapper(placement:  "mid article widget", taboolaType: "alternating-1x2-widget",);
+    return ClassicUnitWrapper(
+        placement: "mid article widget",
+        taboolaType: "alternating-1x2-widget",
+        scrollController: scroll);
   }
 
   if (index == 9) {
-
-    return const ClassicUnitWrapper(placement:  "Feed without video", taboolaType: "thumbs-feed-01",);
+    return ClassicUnitWrapper(
+        placement: "Feed without video",
+        taboolaType: "thumbs-feed-01",
+        scrollController: scroll);
   }
   return Text('List item $index');
 }
@@ -98,17 +102,26 @@ bool taboolaDidClickOnItem(
   }
   return false;
 }
+
 class ClassicUnitWrapper extends StatefulWidget {
   final String placement;
   final String taboolaType;
+  final ScrollController scrollController;
 
-  const ClassicUnitWrapper({Key? key, required this.placement, required this.taboolaType}) : super(key: key);
+  const ClassicUnitWrapper({
+    Key? key,
+    required this.placement,
+    required this.taboolaType,
+    required this.scrollController,
+  }) : super(key: key);
 
   @override
   _ClassicUnitWrapperState createState() => _ClassicUnitWrapperState();
 }
 
-class _ClassicUnitWrapperState extends State<ClassicUnitWrapper> with AutomaticKeepAliveClientMixin<ClassicUnitWrapper> {
+class _ClassicUnitWrapperState extends State<ClassicUnitWrapper>
+    with AutomaticKeepAliveClientMixin<ClassicUnitWrapper> {
+
 
   void taboolaDidShow(String placement) {
     print("taboolaDidShow");
@@ -135,6 +148,7 @@ class _ClassicUnitWrapperState extends State<ClassicUnitWrapper> with AutomaticK
     }
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -144,10 +158,10 @@ class _ClassicUnitWrapperState extends State<ClassicUnitWrapper> with AutomaticK
         taboolaDidFailToLoad,
         taboolaDidClickOnItem);
     return taboolaClassicBuilder.build(
-        widget.placement, widget.taboolaType, true, taboolaClassicListener2);
+        widget.placement, widget.taboolaType, true, taboolaClassicListener2,
+        viewId: 123333, scrollController: widget.scrollController);
   }
 
   @override
   bool get wantKeepAlive => true;
-
 }
