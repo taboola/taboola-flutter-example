@@ -329,10 +329,10 @@ packages:
     dependency: "direct main"
     description:
       name: taboola_sdk
-      sha256: a63ef176f9d7e15c2de5c7b0dff501af137ccca18e042769c1ab1efabdab35aa
+      sha256: d2221d620aa6ad4c58d0e8e2d320cb54d2270df9a7471192dda369e4dde7f830
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.3.1"
   term_glyph:
     dependency: transitive
     description:
