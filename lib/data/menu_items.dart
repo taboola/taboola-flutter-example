@@ -20,5 +20,10 @@ class MenuItemRepository {
           itemColor: Color.fromARGB(255, 67, 240, 177),
           routeName: '/customlistviewfeedAndWidget',
         ),
+        MenuItemModel(
+          title: 'Feed With Web View',
+          itemColor: Color.fromARGB(255, 106, 116, 228),
+          routeName: '/CustomScrollViewWebViewFeed',
+        ),
       ];
 }
