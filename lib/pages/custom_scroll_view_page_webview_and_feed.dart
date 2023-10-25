@@ -37,7 +37,7 @@ class CustomScrollViewWebViewFeed extends StatelessWidget {
                   child: WebViewWidget(controller: controller))),
           SliverToBoxAdapter(
               child: SizedBox(
-                  child: Text("hello"))),
+                  child: taboolaWidget())),
         ],
       );
         
