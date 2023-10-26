@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
           pinned: true,
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
-            title: Text('Taboola Flutter Plugin v3.0.1'),
+            title: Text('Taboola Flutter Plugin v3.3.0'),
           ),
         ),
         SliverPadding(
