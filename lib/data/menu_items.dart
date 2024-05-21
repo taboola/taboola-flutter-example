@@ -25,5 +25,11 @@ class MenuItemRepository {
           itemColor: Color.fromARGB(255, 106, 116, 228),
           routeName: '/CustomScrollViewWebViewFeed',
         ),
+        MenuItemModel(
+          title: 'Future List Widget',
+          itemColor: Color.fromARGB(255, 190, 116, 228),
+          routeName: '/CustomFutureListViewPageWidget',
+        ),
+        
       ];
 }
