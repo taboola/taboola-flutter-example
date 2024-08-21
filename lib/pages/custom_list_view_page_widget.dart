@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:taboola_sdk/classic/tbl_classic.dart';
+import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
+import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 
 import 'package:taboola_sdk/taboola.dart';
-import 'package:taboola_sdk/classic/taboola_classic_listener.dart';
-import 'package:taboola_sdk/classic/taboola_classic.dart';
 
-TaboolaClassicBuilder taboolaClassicBuilder =
-    Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
+
+TBLClassicPage taboolaClassicBuilder =
+    Taboola.getClassicPage("http://www.example.com", "article");
 
 final List<String> items = List.generate(10, (index) => "Item $index");
 
@@ -16,7 +18,7 @@ class CustomListViewPageFeedAndWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
 
-    Taboola.init(PublisherInfo("sdk-tester-rnd"));
+
 
     return Scaffold(
       appBar: AppBar(
@@ -59,13 +61,13 @@ Container setContainer(int index, scroll) {
 
 Widget setListContent(int index, ScrollController scroll) {
   if (index == 5) {
-    TaboolaClassicListener taboolaClassicListener = TaboolaClassicListener(
+    TBLClassicListener taboolaClassicListener = TBLClassicListener(
         taboolaDidResize,
         taboolaDidShow,
         taboolaDidFailToLoad,
         taboolaDidClickOnItem);
 
-    TaboolaClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build(
+    TBLClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build(
         "mid article widget",
         "alternating-1x2-widget",
         false,
@@ -77,13 +79,13 @@ Widget setListContent(int index, ScrollController scroll) {
   }
 
   if (index == 9) {
-    TaboolaClassicListener taboolaClassicListener2 = TaboolaClassicListener(
+    TBLClassicListener taboolaClassicListener2 = TBLClassicListener(
         taboolaDidResize,
         taboolaDidShow,
         taboolaDidFailToLoad,
         taboolaDidClickOnItem);
 
-    TaboolaClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build(
+    TBLClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build(
         "Feed without video", "thumbs-feed-01", true, taboolaClassicListener2,
         viewId: 123333, scrollController: scroll, keepAlive: true);
     return taboolaClassicfeed;

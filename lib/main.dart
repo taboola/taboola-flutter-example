@@ -4,10 +4,13 @@ import 'package:taboola_flutter_example/pages/custom_scroll_view_page_feed_and_w
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dart';
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_webview_and_feed.dart';
+import 'package:taboola_sdk/taboola.dart';
 
 import 'data/menu_items.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Taboola.init(TBLPublisherInfo("sdk-tester-rnd"));
   runApp(const MyApp());
 }
 
@@ -17,6 +20,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

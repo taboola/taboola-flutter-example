@@ -2,16 +2,18 @@
 // ignore_for_file: avoid_print, import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
+import 'package:taboola_sdk/classic/tbl_classic.dart';
+import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
+import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk/taboola.dart';
-import 'package:taboola_sdk/classic/taboola_classic_listener.dart';
-import 'package:taboola_sdk/classic/taboola_classic.dart';
+
 
 bool shouldDisplayTaboolaFeed = false;
 TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
 const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
-TaboolaClassicBuilder taboolaClassicBuilder = Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
-TaboolaClassicListener taboolaClassicListener = TaboolaClassicListener(taboolaDidResize,taboolaDidShow,taboolaDidFailToLoad,taboolaDidClickOnItem);
-TaboolaClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build("Feed without video", "thumbs-feed-01", true, taboolaClassicListener,viewId: viewID);
+TBLClassicPage taboolaClassicBuilder = Taboola.getClassicPage("http://www.example.com", "article");
+TBLClassicListener taboolaClassicListener = TBLClassicListener(taboolaDidResize,taboolaDidShow,taboolaDidFailToLoad,taboolaDidClickOnItem);
+TBLClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build("Feed without video", "thumbs-feed-01", true, taboolaClassicListener,viewId: viewID);
 
 const viewID = 123;
 
@@ -23,9 +25,9 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Taboola.init(PublisherInfo("sdk-tester-rnd"));
+
     
-    TaboolaClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build("mid article widget","alternating-1x2-widget",false,taboolaClassicListener,viewId: viewID);
+    TBLClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build("mid article widget","alternating-1x2-widget",false,taboolaClassicListener,viewId: viewID);
         
     shouldDisplayTaboolaFeed = false;
     widgetsState = TaboolaWidgetsState();
