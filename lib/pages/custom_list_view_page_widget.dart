@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:taboola_sdk/classic/tbl_classic.dart';
 import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
 import 'package:taboola_sdk/classic/tbl_classic_page.dart';
-
 import 'package:taboola_sdk/taboola.dart';
 
 
-TBLClassicPage taboolaClassicBuilder =
+
+
+TBLClassicPage classicPage =
     Taboola.getClassicPage("http://www.example.com", "article");
 
 final List<String> items = List.generate(10, (index) => "Item $index");
@@ -67,7 +68,7 @@ Widget setListContent(int index, ScrollController scroll) {
         taboolaDidFailToLoad,
         taboolaDidClickOnItem);
 
-    TBLClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build(
+    TBLClassicUnit taboolaClassicUnit = classicPage.build(
         "mid article widget",
         "alternating-1x2-widget",
         false,
@@ -85,7 +86,7 @@ Widget setListContent(int index, ScrollController scroll) {
         taboolaDidFailToLoad,
         taboolaDidClickOnItem);
 
-    TBLClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build(
+    TBLClassicUnit taboolaClassicfeed = classicPage.build(
         "Feed without video", "thumbs-feed-01", true, taboolaClassicListener2,
         viewId: 123333, scrollController: scroll, keepAlive: true);
     return taboolaClassicfeed;

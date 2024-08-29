@@ -11,9 +11,15 @@ import 'package:taboola_sdk/taboola.dart';
 bool shouldDisplayTaboolaFeed = false;
 TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
 const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
-TBLClassicPage taboolaClassicBuilder = Taboola.getClassicPage("http://www.example.com", "article");
-TBLClassicListener taboolaClassicListener = TBLClassicListener(taboolaDidResize,taboolaDidShow,taboolaDidFailToLoad,taboolaDidClickOnItem);
-TBLClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build("Feed without video", "thumbs-feed-01", true, taboolaClassicListener,viewId: viewID);
+TBLClassicPage classicPage = Taboola.getClassicPage("http://www.example.com", "article");
+TBLClassicListener taboolaClassicListener = TBLClassicListener(taboolaDidResize,
+taboolaDidShow,taboolaDidFailToLoad,taboolaDidClickOnItem);
+TBLClassicUnit taboolaClassicfeed = classicPage.build
+("Feed without video",
+ "thumbs-feed-01",
+  true,
+ taboolaClassicListener,
+ viewId: 123);
 
 const viewID = 123;
 
@@ -27,7 +33,7 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
 
 
     
-    TBLClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build("mid article widget","alternating-1x2-widget",false,taboolaClassicListener,viewId: viewID);
+    TBLClassicUnit taboolaClassicUnit = classicPage.build("mid article widget","alternating-1x2-widget",false,taboolaClassicListener,viewId: viewID);
         
     shouldDisplayTaboolaFeed = false;
     widgetsState = TaboolaWidgetsState();
