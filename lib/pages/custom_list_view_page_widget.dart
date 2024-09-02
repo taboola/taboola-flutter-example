@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:taboola_flutter_example/constants/publisher_params.dart';
 import 'package:taboola_sdk/classic/tbl_classic.dart';
 import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
 import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk/taboola.dart';
 
-
-
-
-TBLClassicPage classicPage =
-    Taboola.getClassicPage("http://www.example.com", "article");
+TBLClassicPage classicPage = Taboola.getClassicPage(
+    PublisherParams.pageUrlKey, PublisherParams.pageTypeKey);
 
 final List<String> items = List.generate(10, (index) => "Item $index");
 
@@ -18,8 +16,6 @@ class CustomListViewPageFeedAndWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -69,8 +65,8 @@ Widget setListContent(int index, ScrollController scroll) {
         taboolaDidClickOnItem);
 
     TBLClassicUnit taboolaClassicUnit = classicPage.build(
-        "mid article widget",
-        "alternating-1x2-widget",
+        PublisherParams.midArticleWidgetPlacementNameKey,
+        PublisherParams.alternating1x2WidgetModeKey,
         false,
         taboolaClassicListener,
         viewId: 123,
@@ -87,8 +83,13 @@ Widget setListContent(int index, ScrollController scroll) {
         taboolaDidClickOnItem);
 
     TBLClassicUnit taboolaClassicfeed = classicPage.build(
-        "Feed without video", "thumbs-feed-01", true, taboolaClassicListener2,
-        viewId: 123333, scrollController: scroll, keepAlive: true);
+        PublisherParams.feedPlacementNameKey,
+        PublisherParams.feedModeKey,
+        true,
+        taboolaClassicListener2,
+        viewId: 123333,
+        scrollController: scroll,
+        keepAlive: true);
     return taboolaClassicfeed;
   }
   return Text('List item $index');

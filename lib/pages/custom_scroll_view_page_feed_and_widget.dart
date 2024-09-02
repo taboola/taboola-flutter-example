@@ -6,7 +6,7 @@ import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
 import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk/taboola.dart';
 
-import '../constants/publisher_params.dart';
+import 'package:taboola_flutter_example/constants/publisher_params.dart';
 
 bool shouldDisplayTaboolaFeed = false;
 TaboolaWidgetsState widgetsState = TaboolaWidgetsState();

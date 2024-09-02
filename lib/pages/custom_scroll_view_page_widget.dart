@@ -4,6 +4,7 @@ import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
 import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk/taboola.dart';
 
+import 'package:taboola_flutter_example/constants/publisher_params.dart';
 
 class CustomScrollViewPageWidget extends StatelessWidget {
   const CustomScrollViewPageWidget({Key? key}) : super(key: key);
@@ -26,10 +27,9 @@ class CustomScrollViewPageWidget extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   return Container(
-                    alignment: Alignment.center,
-                    color: Colors.teal[100 * (index % 9)],
-                    child: setGridItemContent(index)
-                  );
+                      alignment: Alignment.center,
+                      color: Colors.teal[100 * (index % 9)],
+                      child: setGridItemContent(index));
                 },
                 childCount: 10,
               ),
@@ -39,10 +39,10 @@ class CustomScrollViewPageWidget extends StatelessWidget {
   }
 }
 
-Widget setGridItemContent(int index){
-  
-  if(index == 5 ){
-    TBLClassicPage taboolaClassicBuilder = Taboola.getClassicPage("http://www.example.com", "article");
+Widget setGridItemContent(int index) {
+  if (index == 5) {
+    TBLClassicPage taboolaClassicBuilder = Taboola.getClassicPage(
+        PublisherParams.pageUrlKey, PublisherParams.pageTypeKey);
 
     TBLClassicListener taboolaClassicListener = TBLClassicListener(
         taboolaDidResize,
@@ -50,7 +50,11 @@ Widget setGridItemContent(int index){
         taboolaDidFailToLoad,
         taboolaDidClickOnItem);
 
-    TBLClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build("mid article widget","alternating-1x2-widget", false, taboolaClassicListener);
+    TBLClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build(
+        PublisherParams.midArticleWidgetPlacementNameKey,
+        PublisherParams.alternating1x2WidgetModeKey,
+        false,
+        taboolaClassicListener);
     return taboolaClassicUnit;
   }
   return Text('grid item $index');
