@@ -5,11 +5,12 @@ import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dar
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
 import 'package:taboola_sdk/taboola.dart';
 
+import 'constants/publisher_params.dart';
 import 'data/menu_items.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Taboola.init(TBLPublisherInfo("sdk-tester-rnd"));
+  Taboola.init(TBLPublisherInfo(PublisherParams.publisherNameKey));
   runApp(const MyApp());
 }
 

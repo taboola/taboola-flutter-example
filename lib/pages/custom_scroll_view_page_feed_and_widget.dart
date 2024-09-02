@@ -1,4 +1,3 @@
-
 // ignore_for_file: avoid_print, import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
@@ -7,38 +6,37 @@ import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
 import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk/taboola.dart';
 
+import '../constants/publisher_params.dart';
 
 bool shouldDisplayTaboolaFeed = false;
 TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
 const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
-TBLClassicPage classicPage = Taboola.getClassicPage("http://www.example.com", "article");
+TBLClassicPage classicPage =
+    Taboola.getClassicPage(PublisherParams.pageUrlKey, PublisherParams.pageTypeKey);
 TBLClassicListener taboolaClassicListener = TBLClassicListener(taboolaDidResize,
-taboolaDidShow,taboolaDidFailToLoad,taboolaDidClickOnItem);
-TBLClassicUnit taboolaClassicfeed = classicPage.build
-("Feed without video",
- "thumbs-feed-01",
-  true,
- taboolaClassicListener,
- viewId: 123);
+    taboolaDidShow, taboolaDidFailToLoad, taboolaDidClickOnItem);
+TBLClassicUnit taboolaClassicfeed = classicPage.build(
+    PublisherParams.feedPlacementNameKey,
+    PublisherParams.feedModeKey,
+    true,
+    taboolaClassicListener,
+    viewId: 123);
 
 const viewID = 123;
 
-
-
 class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
   const CustomScrollViewPageFeedAndWidget({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
+    TBLClassicUnit taboolaClassicUnit = classicPage.build(PublisherParams.midArticleWidgetPlacementNameKey,
+        PublisherParams.alternating1x2WidgetModeKey, false, taboolaClassicListener,
+        viewId: viewID);
 
-
-    
-    TBLClassicUnit taboolaClassicUnit = classicPage.build("mid article widget","alternating-1x2-widget",false,taboolaClassicListener,viewId: viewID);
-        
     shouldDisplayTaboolaFeed = false;
     widgetsState = TaboolaWidgetsState();
     //return (const TaboolaWidgets());
-     return Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text("Sliver List with Widget & Feed"),
         ),
@@ -47,7 +45,7 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
               ? taboolaClassicfeed.scrollController
               : null,
           slivers: <Widget>[
-                  SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: taboolaClassicUnit,
             ),
             SliverList(
@@ -60,15 +58,15 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
                 child: Text('List Item $index'),
               );
             }, childCount: 10)),
-      const TaboolaWidgets()
+            const TaboolaWidgets()
           ],
         ));
   }
 }
 
 class TaboolaWidgets extends StatefulWidget {
-    const TaboolaWidgets({Key? key}) : super(key: key);
-    
+  const TaboolaWidgets({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => widgetsState;
 }
@@ -82,28 +80,32 @@ class TaboolaWidgetsState extends State<TaboolaWidgets> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(child: shouldDisplayTaboolaFeed ? taboolaClassicfeed : const EmptyWidget());
+    return SliverToBoxAdapter(
+        child: shouldDisplayTaboolaFeed
+            ? taboolaClassicfeed
+            : const EmptyWidget());
   }
 }
 
-class EmptyWidget extends StatelessWidget{
+class EmptyWidget extends StatelessWidget {
   const EmptyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(color: Colors.blue, height: 100,child: const Text("Feed Container"),alignment: Alignment.center);
+    return Container(
+        color: Colors.blue,
+        height: 100,
+        child: const Text("Feed Container"),
+        alignment: Alignment.center);
   }
-
 }
 
 //Taboola classic listeners
 void taboolaDidShow(String placement) {
-  print("taboolaDidShow" );
-  if(shouldDisplayTaboolaFeed == false){
-  widgetsState.enableFeedDisplay();
+  print("taboolaDidShow");
+  if (shouldDisplayTaboolaFeed == false) {
+    widgetsState.enableFeedDisplay();
   }
-  
 }
 
 void taboolaDidResize(String placement, double height) {
