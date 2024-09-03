@@ -10,7 +10,7 @@ import 'data/menu_items.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Taboola.init(TBLPublisherInfo(PublisherParams.publisherNameKey));
+  Taboola.init(TBLPublisherInfo(PublisherParams.publisherName));
   runApp(const MyApp());
 }
 

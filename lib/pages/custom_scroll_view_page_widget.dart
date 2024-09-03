@@ -42,7 +42,7 @@ class CustomScrollViewPageWidget extends StatelessWidget {
 Widget setGridItemContent(int index) {
   if (index == 5) {
     TBLClassicPage taboolaClassicBuilder = Taboola.getClassicPage(
-        PublisherParams.pageUrlKey, PublisherParams.pageTypeKey);
+        PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
 
     TBLClassicListener taboolaClassicListener = TBLClassicListener(
         taboolaDidResize,
@@ -51,8 +51,8 @@ Widget setGridItemContent(int index) {
         taboolaDidClickOnItem);
 
     TBLClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build(
-        PublisherParams.midArticleWidgetPlacementNameKey,
-        PublisherParams.alternating1x2WidgetModeKey,
+        PublisherParams.midArticleWidgetPlacementName,
+        PublisherParams.alternatingOneByTwoWidgetMode,
         false,
         taboolaClassicListener);
     return taboolaClassicUnit;

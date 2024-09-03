@@ -6,7 +6,7 @@ import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk/taboola.dart';
 
 TBLClassicPage classicPage = Taboola.getClassicPage(
-    PublisherParams.pageUrlKey, PublisherParams.pageTypeKey);
+    PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
 
 final List<String> items = List.generate(10, (index) => "Item $index");
 
@@ -65,8 +65,8 @@ Widget setListContent(int index, ScrollController scroll) {
         taboolaDidClickOnItem);
 
     TBLClassicUnit taboolaClassicUnit = classicPage.build(
-        PublisherParams.midArticleWidgetPlacementNameKey,
-        PublisherParams.alternating1x2WidgetModeKey,
+        PublisherParams.midArticleWidgetPlacementName,
+        PublisherParams.alternatingOneByTwoWidgetMode,
         false,
         taboolaClassicListener,
         viewId: 123,
@@ -83,8 +83,8 @@ Widget setListContent(int index, ScrollController scroll) {
         taboolaDidClickOnItem);
 
     TBLClassicUnit taboolaClassicfeed = classicPage.build(
-        PublisherParams.feedPlacementNameKey,
-        PublisherParams.feedModeKey,
+        PublisherParams.feedPlacementName,
+        PublisherParams.feedMode,
         true,
         taboolaClassicListener2,
         viewId: 123333,

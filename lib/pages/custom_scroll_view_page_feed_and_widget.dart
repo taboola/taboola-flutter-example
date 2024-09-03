@@ -12,12 +12,12 @@ bool shouldDisplayTaboolaFeed = false;
 TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
 const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
 TBLClassicPage classicPage =
-    Taboola.getClassicPage(PublisherParams.pageUrlKey, PublisherParams.pageTypeKey);
+    Taboola.getClassicPage(PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
 TBLClassicListener taboolaClassicListener = TBLClassicListener(taboolaDidResize,
     taboolaDidShow, taboolaDidFailToLoad, taboolaDidClickOnItem);
 TBLClassicUnit taboolaClassicfeed = classicPage.build(
-    PublisherParams.feedPlacementNameKey,
-    PublisherParams.feedModeKey,
+    PublisherParams.feedPlacementName,
+    PublisherParams.feedMode,
     true,
     taboolaClassicListener,
     viewId: 123);
@@ -29,8 +29,8 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TBLClassicUnit taboolaClassicUnit = classicPage.build(PublisherParams.midArticleWidgetPlacementNameKey,
-        PublisherParams.alternating1x2WidgetModeKey, false, taboolaClassicListener,
+    TBLClassicUnit taboolaClassicUnit = classicPage.build(PublisherParams.midArticleWidgetPlacementName,
+        PublisherParams.alternatingOneByTwoWidgetMode, false, taboolaClassicListener,
         viewId: viewID);
 
     shouldDisplayTaboolaFeed = false;
