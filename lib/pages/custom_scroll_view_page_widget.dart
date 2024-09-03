@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-
+import 'package:taboola_sdk/classic/tbl_classic.dart';
+import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
+import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk/taboola.dart';
-import 'package:taboola_sdk/classic/taboola_classic_listener.dart';
-import 'package:taboola_sdk/classic/taboola_classic.dart';
+
+import 'package:taboola_flutter_example/constants/publisher_params.dart';
 
 class CustomScrollViewPageWidget extends StatelessWidget {
   const CustomScrollViewPageWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Taboola.init(PublisherInfo("sdk-tester-rnd"));
-
-
-
     return Scaffold(
         appBar: AppBar(
           title: const Text("Sliver Grid With Widget"),
@@ -29,10 +27,9 @@ class CustomScrollViewPageWidget extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   return Container(
-                    alignment: Alignment.center,
-                    color: Colors.teal[100 * (index % 9)],
-                    child: setGridItemContent(index)
-                  );
+                      alignment: Alignment.center,
+                      color: Colors.teal[100 * (index % 9)],
+                      child: setGridItemContent(index));
                 },
                 childCount: 10,
               ),
@@ -42,18 +39,22 @@ class CustomScrollViewPageWidget extends StatelessWidget {
   }
 }
 
-Widget setGridItemContent(int index){
-  
-  if(index == 5 ){
-    TaboolaClassicBuilder taboolaClassicBuilder = Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
+Widget setGridItemContent(int index) {
+  if (index == 5) {
+    TBLClassicPage taboolaClassicBuilder = Taboola.getClassicPage(
+        PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
 
-    TaboolaClassicListener taboolaClassicListener = TaboolaClassicListener(
+    TBLClassicListener taboolaClassicListener = TBLClassicListener(
         taboolaDidResize,
         taboolaDidShow,
         taboolaDidFailToLoad,
         taboolaDidClickOnItem);
 
-    TaboolaClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build("mid article widget","alternating-1x2-widget", false, taboolaClassicListener);
+    TBLClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build(
+        PublisherParams.midArticleWidgetPlacementName,
+        PublisherParams.alternatingOneByTwoWidgetMode,
+        false,
+        taboolaClassicListener);
     return taboolaClassicUnit;
   }
   return Text('grid item $index');

@@ -3,19 +3,20 @@ import 'package:taboola_flutter_example/pages/custom_list_view_page_widget.dart'
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_feed_and_widget.dart';
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dart';
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
-import 'package:taboola_flutter_example/pages/custom_scroll_view_page_webview_and_feed.dart';
-import 'package:taboola_flutter_example/pages/custom_future_list_page_widget.dart';
+import 'package:taboola_sdk/taboola.dart';
 
+import 'package:taboola_flutter_example/constants/publisher_params.dart';
 import 'data/menu_items.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Taboola.init(TBLPublisherInfo(PublisherParams.publisherName));
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,15 +30,13 @@ class MyApp extends StatelessWidget {
         '/customscrollviewWidget': (context) => const CustomScrollViewPageWidget(),
         '/customscrollviewfeedAndWidget': (context) => const CustomScrollViewPageFeedAndWidget(),
         '/customlistviewfeedAndWidget': (context) =>  const CustomListViewPageFeedAndWidget(),
-        '/CustomScrollViewWebViewFeed' : (context) => const CustomScrollViewWebViewFeed(),
-        '/CustomFutureListViewPageWidget' : (context) => const CustomFutureListViewPageWidget(),
       },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key) {}
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -53,27 +52,42 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         body: CustomScrollView(
       slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Image.asset(
+              'lib/assets/taboola-logo.png',
+              height: 100, // Adjust the height as needed
+            ),
+          ),
+        ),
         const SliverAppBar(
           pinned: true,
-          expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
-            title: Text('Taboola Flutter Plugin v3.3.0'),
+            title: Text(
+              'Taboola Flutter Plugin',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
         SliverPadding(
-            padding: const EdgeInsets.all(20),
-            sliver: SliverFixedExtentList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: MainMenuItem(
-                    menuItems[index],
-                  ),
+          padding: const EdgeInsets.all(20),
+          sliver: SliverFixedExtentList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: MainMenuItem(
+                  menuItems[index],
                 ),
-                childCount: menuItems.length,
               ),
-              itemExtent: 110,
-            )),
+              childCount: menuItems.length,
+            ),
+            itemExtent: 110,
+          ),
+        ),
       ],
     ));
   }

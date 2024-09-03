@@ -1,36 +1,42 @@
-
 // ignore_for_file: avoid_print, import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
+import 'package:taboola_sdk/classic/tbl_classic.dart';
+import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
+import 'package:taboola_sdk/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk/taboola.dart';
-import 'package:taboola_sdk/classic/taboola_classic_listener.dart';
-import 'package:taboola_sdk/classic/taboola_classic.dart';
+
+import 'package:taboola_flutter_example/constants/publisher_params.dart';
 
 bool shouldDisplayTaboolaFeed = false;
 TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
 const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
-TaboolaClassicBuilder taboolaClassicBuilder = Taboola.getTaboolaClassicBuilder("http://www.example.com", "article");
-TaboolaClassicListener taboolaClassicListener = TaboolaClassicListener(taboolaDidResize,taboolaDidShow,taboolaDidFailToLoad,taboolaDidClickOnItem);
-TaboolaClassicUnit taboolaClassicfeed = taboolaClassicBuilder.build("Feed without video", "thumbs-feed-01", true, taboolaClassicListener,viewId: viewID);
+TBLClassicPage classicPage =
+    Taboola.getClassicPage(PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
+TBLClassicListener taboolaClassicListener = TBLClassicListener(taboolaDidResize,
+    taboolaDidShow, taboolaDidFailToLoad, taboolaDidClickOnItem);
+TBLClassicUnit taboolaClassicfeed = classicPage.build(
+    PublisherParams.feedPlacementName,
+    PublisherParams.feedMode,
+    true,
+    taboolaClassicListener,
+    viewId: 123);
 
 const viewID = 123;
 
-
-
 class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
   const CustomScrollViewPageFeedAndWidget({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
+    TBLClassicUnit taboolaClassicUnit = classicPage.build(PublisherParams.midArticleWidgetPlacementName,
+        PublisherParams.alternatingOneByTwoWidgetMode, false, taboolaClassicListener,
+        viewId: viewID);
 
-    Taboola.init(PublisherInfo("sdk-tester-rnd"));
-    
-    TaboolaClassicUnit taboolaClassicUnit = taboolaClassicBuilder.build("mid article widget","alternating-1x2-widget",false,taboolaClassicListener,viewId: viewID);
-        
     shouldDisplayTaboolaFeed = false;
     widgetsState = TaboolaWidgetsState();
     //return (const TaboolaWidgets());
-     return Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text("Sliver List with Widget & Feed"),
         ),
@@ -39,7 +45,7 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
               ? taboolaClassicfeed.scrollController
               : null,
           slivers: <Widget>[
-                  SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: taboolaClassicUnit,
             ),
             SliverList(
@@ -52,15 +58,15 @@ class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
                 child: Text('List Item $index'),
               );
             }, childCount: 10)),
-      const TaboolaWidgets()
+            const TaboolaWidgets()
           ],
         ));
   }
 }
 
 class TaboolaWidgets extends StatefulWidget {
-    const TaboolaWidgets({Key? key}) : super(key: key);
-    
+  const TaboolaWidgets({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => widgetsState;
 }
@@ -74,28 +80,32 @@ class TaboolaWidgetsState extends State<TaboolaWidgets> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(child: shouldDisplayTaboolaFeed ? taboolaClassicfeed : const EmptyWidget());
+    return SliverToBoxAdapter(
+        child: shouldDisplayTaboolaFeed
+            ? taboolaClassicfeed
+            : const EmptyWidget());
   }
 }
 
-class EmptyWidget extends StatelessWidget{
+class EmptyWidget extends StatelessWidget {
   const EmptyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(color: Colors.blue, height: 100,child: const Text("Feed Container"),alignment: Alignment.center);
+    return Container(
+        color: Colors.blue,
+        height: 100,
+        child: const Text("Feed Container"),
+        alignment: Alignment.center);
   }
-
 }
 
 //Taboola classic listeners
 void taboolaDidShow(String placement) {
-  print("taboolaDidShow" );
-  if(shouldDisplayTaboolaFeed == false){
-  widgetsState.enableFeedDisplay();
+  print("taboolaDidShow");
+  if (shouldDisplayTaboolaFeed == false) {
+    widgetsState.enableFeedDisplay();
   }
-  
 }
 
 void taboolaDidResize(String placement, double height) {
