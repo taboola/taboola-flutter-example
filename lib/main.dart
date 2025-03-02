@@ -5,9 +5,9 @@ import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dar
 import 'package:taboola_flutter_example/pages/web_integration_page.dart';
 import 'package:taboola_flutter_example/pages/web_integration_inappwebview_page.dart';
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
-import 'package:taboola_sdk/taboola.dart';
 
 import 'package:taboola_flutter_example/constants/publisher_params.dart';
+import 'package:taboola_sdk_beta/taboola.dart';
 import 'data/menu_items.dart';
 
 void main() {
@@ -55,44 +55,44 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
         body: CustomScrollView(
-      slivers: <Widget>[
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Image.asset(
-              'lib/assets/taboola-logo.png',
-              height: 100, // Adjust the height as needed
-            ),
-          ),
-        ),
-        const SliverAppBar(
-          pinned: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              'Taboola Flutter Plugin',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.all(20),
-          sliver: SliverFixedExtentList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: MainMenuItem(
-                  menuItems[index],
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Image.asset(
+                  'lib/assets/taboola-logo.png',
+                  height: 100, // Adjust the height as needed
                 ),
               ),
-              childCount: menuItems.length,
             ),
-            itemExtent: 110,
-          ),
-        ),
-      ],
-    ));
+            const SliverAppBar(
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+                  'Taboola Flutter Plugin',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(20),
+              sliver: SliverFixedExtentList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: MainMenuItem(
+                      menuItems[index],
+                    ),
+                  ),
+                  childCount: menuItems.length,
+                ),
+                itemExtent: 110,
+              ),
+            ),
+          ],
+        ));
   }
 }
