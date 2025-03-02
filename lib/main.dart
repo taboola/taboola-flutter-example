@@ -5,7 +5,7 @@ import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dar
 import 'package:taboola_flutter_example/pages/web_integration_page.dart';
 import 'package:taboola_flutter_example/pages/web_integration_inappwebview_page.dart';
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
-import 'package:taboola_sdk_beta/taboola.dart';
+import 'package:taboola_sdk/taboola.dart';
 
 import 'package:taboola_flutter_example/constants/publisher_params.dart';
 import 'data/menu_items.dart';

@@ -1,143 +1,89 @@
 // ignore_for_file: avoid_print, import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
-
+import 'package:taboola_sdk/classic/tbl_classic.dart';
+import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
+import 'package:taboola_sdk/classic/tbl_classic_page.dart';
+import 'package:taboola_sdk/taboola.dart';
 
 import 'package:taboola_flutter_example/constants/publisher_params.dart';
-import 'package:taboola_sdk_beta/classic/tbl_classic_listener.dart';
-import 'package:taboola_sdk_beta/classic/tbl_classic_page.dart';
-import 'package:taboola_sdk_beta/classic/tbl_classic_unit.dart';
-import 'package:taboola_sdk_beta/taboola.dart';
 
-class CustomScrollViewPageFeedAndWidget extends StatefulWidget {
+bool shouldDisplayTaboolaFeed = false;
+TaboolaWidgetsState widgetsState = TaboolaWidgetsState();
+const TaboolaWidgets taboolaWidgets = TaboolaWidgets();
+TBLClassicPage classicPage =
+    Taboola.getClassicPage(PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
+TBLClassicListener taboolaClassicListener = TBLClassicListener(taboolaDidResize,
+    taboolaDidShow, taboolaDidFailToLoad, taboolaDidClickOnItem);
+TBLClassicUnit taboolaClassicfeed = classicPage.build(
+    PublisherParams.feedPlacementName,
+    PublisherParams.feedMode,
+    true,
+    taboolaClassicListener,
+    viewId: 123);
+
+const viewID = 123;
+
+class CustomScrollViewPageFeedAndWidget extends StatelessWidget {
   const CustomScrollViewPageFeedAndWidget({Key? key}) : super(key: key);
 
   @override
-  State<CustomScrollViewPageFeedAndWidget> createState() => _CustomScrollViewPageFeedAndWidgetState();
+  Widget build(BuildContext context) {
+    TBLClassicUnit taboolaClassicUnit = classicPage.build(PublisherParams.midArticleWidgetPlacementName,
+        PublisherParams.alternatingOneByTwoWidgetMode, false, taboolaClassicListener,
+        viewId: viewID);
+
+    shouldDisplayTaboolaFeed = false;
+    widgetsState = TaboolaWidgetsState();
+    //return (const TaboolaWidgets());
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("Sliver List with Widget & Feed"),
+        ),
+        body: CustomScrollView(
+          controller: shouldDisplayTaboolaFeed
+              ? taboolaClassicfeed.scrollController
+              : null,
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: taboolaClassicUnit,
+            ),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+              return Container(
+                alignment: Alignment.center,
+                color: Colors.lightBlue[100 * (index % 9)],
+                height: 50,
+                child: Text('List Item $index'),
+              );
+            }, childCount: 10)),
+            const TaboolaWidgets()
+          ],
+        ));
+  }
 }
 
-class _CustomScrollViewPageFeedAndWidgetState extends State<CustomScrollViewPageFeedAndWidget> {
-  late TBLClassicPage _classicPage;
-  late TBLClassicUnit _taboolaClassicFeed;
-  late TBLClassicUnit _taboolaClassicUnit;
-  late TBLClassicListener _taboolaClassicListener;
-  bool _shouldDisplayTaboolaFeed = false;
-  
-  static const int viewID = 123;
+class TaboolaWidgets extends StatefulWidget {
+  const TaboolaWidgets({Key? key}) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
-    _initTaboola();
-  }
+  State<StatefulWidget> createState() => widgetsState;
+}
 
-  void _initTaboola() {
-    _classicPage = Taboola.getClassicPage(
-      PublisherParams.pageUrl, 
-      PublisherParams.pageTypeArticle
-    );
-    
-    _taboolaClassicListener = TBLClassicListener(
-      _taboolaDidResize,
-      _taboolaDidShow,
-      _taboolaDidFailToLoad,
-      _taboolaDidClickOnItem
-    );
-    
-    _taboolaClassicFeed = _classicPage.build(
-      PublisherParams.feedPlacementName,
-      PublisherParams.feedMode,
-      true,
-      _taboolaClassicListener,
-      viewId: viewID
-    );
-    
-    _taboolaClassicUnit = _classicPage.build(
-      PublisherParams.midArticleWidgetPlacementName,
-      PublisherParams.alternatingOneByTwoWidgetMode, 
-      false, 
-      _taboolaClassicListener,
-      viewId: viewID
-    );
-    _taboolaClassicUnit.fetchContent();
-    _taboolaClassicFeed.fetchContent();
-  }
-
-  @override
-  void dispose() {
-    // Clean up resources if needed
-    super.dispose();
-  }
-
-  void _enableFeedDisplay() {
+class TaboolaWidgetsState extends State<TaboolaWidgets> {
+  void enableFeedDisplay() {
     setState(() {
-      _shouldDisplayTaboolaFeed = true;
+      shouldDisplayTaboolaFeed = true;
     });
-  }
-
-  //Taboola classic listeners
-  void _taboolaDidShow(String placement) {
-    print("taboolaDidShow");
-    if (!_shouldDisplayTaboolaFeed) {
-      _enableFeedDisplay();
-    }
-  }
-
-  void _taboolaDidResize(String placement, double height) {
-    print("publisher did get height $height");
-  }
-
-  void _taboolaDidFailToLoad(String placement, String error) {
-    print("publisher placement:$placement did fail with an error:$error");
-  }
-
-  bool _taboolaDidClickOnItem(
-      String placement, String itemId, String clickUrl, bool organic) {
-    print(
-        "publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement of organic: $organic");
-    if (organic) {
-      print("organic");
-    } else {
-      print("SC");
-    }
-    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Sliver List with Widget & Feed"),
-      ),
-      body: CustomScrollView(
-        controller: _shouldDisplayTaboolaFeed
-            ? _taboolaClassicFeed.scrollController
-            : null,
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: _taboolaClassicUnit.getWidget,
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.lightBlue[100 * (index % 9)],
-                  height: 50,
-                  child: Text('List Item $index'),
-                );
-              }, 
-              childCount: 10
-            )
-          ),
-          SliverToBoxAdapter(
-            child: _shouldDisplayTaboolaFeed
-                ? _taboolaClassicFeed.getWidget
-                : const EmptyWidget()
-          ),
-        ],
-      )
-    );
+    return SliverToBoxAdapter(
+        child: shouldDisplayTaboolaFeed
+            ? taboolaClassicfeed
+            : const EmptyWidget());
   }
 }
 
@@ -152,4 +98,34 @@ class EmptyWidget extends StatelessWidget {
         child: const Text("Feed Container"),
         alignment: Alignment.center);
   }
+}
+
+//Taboola classic listeners
+void taboolaDidShow(String placement) {
+  print("taboolaDidShow");
+  if (shouldDisplayTaboolaFeed == false) {
+    widgetsState.enableFeedDisplay();
+  }
+}
+
+void taboolaDidResize(String placement, double height) {
+  print("publisher did get height $height");
+}
+
+void taboolaDidFailToLoad(String placement, String error) {
+  print("publisher placement:$placement did fail with an error:$error");
+}
+
+bool taboolaDidClickOnItem(
+    String placement, String itemId, String clickUrl, bool organic) {
+  print(
+      "publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement of organic: $organic");
+  if (organic) {
+    //_showToast("Publisher opted to open click but didn't actually open it.");
+    print("organic");
+  } else {
+    // _showToast("Publisher opted to open clicks but the item is Sponsored, SDK retains control.");
+    print("SC");
+  }
+  return false;
 }
