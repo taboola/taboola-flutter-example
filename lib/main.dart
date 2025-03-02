@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:taboola_flutter_example/pages/custom_list_view_page_widget.dart';
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_feed_and_widget.dart';
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dart';
+import 'package:taboola_flutter_example/pages/web_integration_page.dart';
+import 'package:taboola_flutter_example/pages/web_integration_inappwebview_page.dart';
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
 import 'package:taboola_sdk_beta/taboola.dart';
 
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Taboola SDK Example',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -29,7 +31,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
         '/customscrollviewWidget': (context) => const CustomScrollViewPageWidget(),
         '/customscrollviewfeedAndWidget': (context) => const CustomScrollViewPageFeedAndWidget(),
-        '/customlistviewfeedAndWidget': (context) =>  const CustomListViewPageFeedAndWidget(),
+        '/customlistviewfeedAndWidget': (context) => const CustomListViewPageFeedAndWidget(),
+        '/webIntegration': (context) => const WebIntegrationPage(),
+        '/webIntegrationInappWebview': (context) => const WebIntegrationInappWebviewPage(),
       },
     );
   }
