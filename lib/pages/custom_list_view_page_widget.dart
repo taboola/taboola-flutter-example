@@ -1,22 +1,124 @@
 import 'package:flutter/material.dart';
 import 'package:taboola_flutter_example/constants/publisher_params.dart';
-import 'package:taboola_sdk/classic/tbl_classic.dart';
-import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
-import 'package:taboola_sdk/classic/tbl_classic_page.dart';
-import 'package:taboola_sdk/taboola.dart';
+import 'package:taboola_sdk_beta/classic/tbl_classic_listener.dart';
+import 'package:taboola_sdk_beta/classic/tbl_classic_page.dart';
+import 'package:taboola_sdk_beta/classic/tbl_classic_unit.dart';
+import 'package:taboola_sdk_beta/taboola.dart';
 
-TBLClassicPage classicPage = Taboola.getClassicPage(
-    PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
-
-final List<String> items = List.generate(10, (index) => "Item $index");
-
-class CustomListViewPageFeedAndWidget extends StatelessWidget {
+class CustomListViewPageFeedAndWidget extends StatefulWidget {
   const CustomListViewPageFeedAndWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final ScrollController _scrollController = ScrollController();
+  State<CustomListViewPageFeedAndWidget> createState() =>
+      _CustomListViewPageFeedAndWidgetState();
+}
 
+class _CustomListViewPageFeedAndWidgetState
+    extends State<CustomListViewPageFeedAndWidget> {
+  late TBLClassicPage _classicPage;
+  late ScrollController _scrollController;
+  late TBLClassicUnit _taboolaClassicUnit;
+  late TBLClassicUnit _taboolaClassicFeed;
+  final List<String> _items = List.generate(10, (index) => "Item $index");
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _initTaboola();
+  }
+
+  void _initTaboola() {
+    _classicPage = Taboola.getClassicPage(
+        PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
+
+    // Create widget unit
+    _taboolaClassicUnit = _classicPage.build(
+      PublisherParams.midArticleWidgetPlacementName,
+      PublisherParams.alternatingOneByTwoWidgetMode,
+      false,
+      TBLClassicListener(_taboolaDidResize, _taboolaDidShow,
+          _taboolaDidFailToLoad, _taboolaDidClickOnItem),
+      viewId: 123,
+      scrollController: _scrollController,
+    );
+
+    // Create feed unit
+    _taboolaClassicFeed = _classicPage.build(
+      PublisherParams.feedPlacementName,
+      PublisherParams.feedMode,
+      true,
+      TBLClassicListener(_taboolaDidResize, _taboolaDidShow,
+          _taboolaDidFailToLoad, _taboolaDidClickOnItem),
+      viewId: 123333,
+      scrollController: _scrollController,
+    );
+    _taboolaClassicUnit.fetchContent();
+    _taboolaClassicFeed.fetchContent();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  // Taboola listener callbacks
+  void _taboolaDidShow(String placement) {
+    print("taboolaDidShow");
+  }
+
+  void _taboolaDidResize(String placement, double height) {
+    print("publisher did get height $height");
+  }
+
+  void _taboolaDidFailToLoad(String placement, String error) {
+    print("publisher placement:$placement did fail with an error:$error");
+  }
+
+  bool _taboolaDidClickOnItem(
+      String placement, String itemId, String clickUrl, bool organic) {
+    print(
+        "publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement of organic: $organic");
+    if (organic) {
+      print("organic");
+    } else {
+      print("SC");
+    }
+    return false;
+  }
+
+  Widget _setListContent(int index) {
+    if (index == 5) {
+      return _taboolaClassicUnit.getWidget;
+    }
+    if (index == 9) {
+      return _taboolaClassicFeed.getWidget;
+    }
+    return Text('List item $index');
+  }
+
+  Container _setContainer(int index) {
+    if (index == 5) {
+      return Container(
+          color: Colors.teal[100 * (index % 9)],
+          height: 300,
+          child: _setListContent(index));
+    } else if (index == 9) {
+      return Container(
+          color: Colors.teal[100 * (index % 9)],
+          height: 1600,
+          child: _setListContent(index));
+    }
+
+    return Container(
+        color: Colors.teal[100 * (index % 9)],
+        height: 200,
+        child: _setListContent(index));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -28,96 +130,11 @@ class CustomListViewPageFeedAndWidget extends StatelessWidget {
       ),
       body: ListView.builder(
         controller: _scrollController,
-        itemCount: items.length,
+        itemCount: _items.length,
         itemBuilder: (BuildContext context, int index) {
-          return setContainer(index, _scrollController);
+          return _setContainer(index);
         },
       ),
     );
   }
-}
-
-Container setContainer(int index, scroll) {
-  if (index == 5) {
-    return Container(
-        color: Colors.teal[100 * (index % 9)],
-        height: 300,
-        child: setListContent(index, scroll));
-  } else if (index == 9) {
-    return Container(
-        color: Colors.teal[100 * (index % 9)],
-        height: 1600,
-        child: setListContent(index, scroll));
-  }
-
-  return Container(
-      color: Colors.teal[100 * (index % 9)],
-      height: 200,
-      child: setListContent(index, scroll));
-}
-
-Widget setListContent(int index, ScrollController scroll) {
-  if (index == 5) {
-    TBLClassicListener taboolaClassicListener = TBLClassicListener(
-        taboolaDidResize,
-        taboolaDidShow,
-        taboolaDidFailToLoad,
-        taboolaDidClickOnItem);
-
-    TBLClassicUnit taboolaClassicUnit = classicPage.build(
-        PublisherParams.midArticleWidgetPlacementName,
-        PublisherParams.alternatingOneByTwoWidgetMode,
-        false,
-        taboolaClassicListener,
-        viewId: 123,
-        scrollController: scroll,
-        keepAlive: true);
-    return taboolaClassicUnit;
-  }
-
-  if (index == 9) {
-    TBLClassicListener taboolaClassicListener2 = TBLClassicListener(
-        taboolaDidResize,
-        taboolaDidShow,
-        taboolaDidFailToLoad,
-        taboolaDidClickOnItem);
-
-    TBLClassicUnit taboolaClassicfeed = classicPage.build(
-        PublisherParams.feedPlacementName,
-        PublisherParams.feedMode,
-        true,
-        taboolaClassicListener2,
-        viewId: 123333,
-        scrollController: scroll,
-        keepAlive: true);
-    return taboolaClassicfeed;
-  }
-  return Text('List item $index');
-}
-
-//Taboola Standard listeners
-void taboolaDidShow(String placement) {
-  print("taboolaDidShow");
-}
-
-void taboolaDidResize(String placement, double height) {
-  print("publisher did get height $height");
-}
-
-void taboolaDidFailToLoad(String placement, String error) {
-  print("publisher placement:$placement did fail with an error:$error");
-}
-
-bool taboolaDidClickOnItem(
-    String placement, String itemId, String clickUrl, bool organic) {
-  print(
-      "publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement of organic: $organic");
-  if (organic) {
-    //_showToast("Publisher opted to open click but didn't actually open it.");
-    print("organic");
-  } else {
-    // _showToast("Publisher opted to open clicks but the item is Sponsored, SDK retains control.");
-    print("SC");
-  }
-  return false;
 }
