@@ -1,34 +1,34 @@
-import 'dart:ui';
-
+import 'package:taboola_flutter_example/constants/app_strings.dart';
 import 'package:taboola_flutter_example/constants/colors.dart';
+import 'package:taboola_flutter_example/constants/routes.dart';
 import 'package:taboola_flutter_example/models/menu_item_model.dart';
 
 class MenuItemRepository {
   static List<MenuItemModel> getMenuItems() => const [
         MenuItemModel(
-          title: 'SliverList Widget + Feed',
-          itemColor: Color.fromRGBO(181, 230, 235, 1),
-          routeName: '/customscrollviewfeedAndWidget',
+          title: AppStrings.menuItemSliverListWidgetFeed,
+          itemColor: AppColors.lightBlue,
+          routeName: Routes.customScrollViewFeedAndWidget,
         ),
         MenuItemModel(
-          title: 'SliverGrid Widget',
+          title: AppStrings.menuItemSliverGridWidget,
           itemColor: AppColors.green,
-          routeName: '/customscrollviewWidget',
+          routeName: Routes.customScrollViewWidget,
         ),
         MenuItemModel(
-          title: 'ListView Widget',
-          itemColor: Color.fromARGB(255, 67, 240, 177),
-          routeName: '/customlistviewfeedAndWidget',
+          title: AppStrings.menuItemListViewWidget,
+          itemColor: AppColors.lightGreen,
+          routeName: Routes.customListViewFeedAndWidget,
         ),
         MenuItemModel(
-          title: 'Web Integration Page',
-          itemColor: Color.fromARGB(255, 240, 147, 67),
-          routeName: '/webIntegration',
+          title: AppStrings.menuItemWebIntegration,
+          itemColor: AppColors.orange,
+          routeName: Routes.webIntegration,
         ),
         MenuItemModel(
-          title: 'Web Integration InappWebview Page',
-          itemColor: Color.fromARGB(255, 240, 67, 149),
-          routeName: '/webIntegrationInappWebview',
+          title: AppStrings.menuItemWebIntegrationInappWebview,
+          itemColor: AppColors.pink,
+          routeName: Routes.webIntegrationInappWebview,
         ),
       ];
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:taboola_sdk_beta/taboola.dart';
 
+import 'package:taboola_flutter_example/constants/app_strings.dart';
+
 const String kLocalExamplePage = '''
 <html>
   <!DOCTYPE html>
@@ -91,7 +93,7 @@ const String kLocalExamplePage = '''
 
 class WebIntegrationInappWebviewPage extends StatefulWidget {
   const WebIntegrationInappWebviewPage({Key? key}) : super(key: key);
-  
+
   @override
   _WebIntegrationInappWebviewPageState createState() =>
       _WebIntegrationInappWebviewPageState();
@@ -123,7 +125,7 @@ class _WebIntegrationInappWebviewPageState
               Navigator.of(context).pop();
             },
           ),
-          title: const Text("Taboola InAppWebView Integration"),
+          title: const Text(AppStrings.taboolaInAppWebViewIntegration),
         ),
         body: SafeArea(
             child: Column(children: <Widget>[
@@ -157,17 +159,19 @@ class _WebIntegrationInappWebviewPageState
 
   void _tblDidShow(String placement) {
     print("tblDidShow for placement: $placement");
-    _showToast("Ad shown for placement: $placement");
+    _showToast("${AppStrings.adShownMessage}$placement");
   }
 
   void _tblDidResize(String placement, double height) {
     print("Ad resized for placement $placement to height $height");
-    _showToast("Ad resized for placement: $placement to height: $height");
+    _showToast(
+        "${AppStrings.adResizedMessage}$placement${AppStrings.adResizedHeightMessage}$height");
   }
 
   void _tblDidFailToLoad(String placement, String error) {
     print("Ad failed to load for placement: $placement with error: $error");
-    _showToast("Ad failed for placement: $placement\nError: $error");
+    _showToast(
+        "${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
   }
 
   bool _tblDidClickOnItem(
@@ -175,11 +179,10 @@ class _WebIntegrationInappWebviewPageState
     print(
         "Publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement of organic: $organic");
     if (organic) {
-      _showToast("Publisher opted to open click but didn't actually open it.");
+      _showToast(AppStrings.organicClickMessage);
       print("organic");
     } else {
-      _showToast(
-          "Publisher opted to open clicks but the item is Sponsored, SDK retains control.");
+      _showToast(AppStrings.sponsoredClickMessage);
       print("SC");
     }
     return false;
@@ -190,10 +193,10 @@ class _WebIntegrationInappWebviewPageState
       SnackBar(
         content: Text(message),
         action: SnackBarAction(
-          label: 'OK',
+          label: AppStrings.okButton,
           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
         ),
       ),
     );
   }
-} 
+}

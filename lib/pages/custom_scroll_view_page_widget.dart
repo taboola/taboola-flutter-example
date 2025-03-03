@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:taboola_flutter_example/constants/publisher_params.dart';
+import 'package:taboola_flutter_example/constants/ui_constants.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_listener.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_unit.dart';
 import 'package:taboola_sdk_beta/taboola.dart';
-
-import 'package:taboola_flutter_example/constants/publisher_params.dart';
+import 'package:taboola_flutter_example/constants/app_strings.dart';
 
 class CustomScrollViewPageWidget extends StatefulWidget {
   const CustomScrollViewPageWidget({Key? key}) : super(key: key);
@@ -80,36 +81,36 @@ class _CustomScrollViewPageWidgetState extends State<CustomScrollViewPageWidget>
   }
 
   Widget _setGridItemContent(int index) {
-    if (index == 5) {
+    if (index == UIConstants.taboolaWidgetPosition) {
       return _taboolaClassicUnit.getWidget;
     }
-    return Text('grid item $index');
+    return Text('${AppStrings.gridItemPrefix}$index');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Sliver Grid With Widget"),
+          title: const Text(AppStrings.sliverGridWithWidget),
         ),
         body: CustomScrollView(
           slivers: <Widget>[
             SliverGrid(
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200.0,
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
-                childAspectRatio: 1.0,
+                maxCrossAxisExtent: UIConstants.maxCrossAxisExtent,
+                mainAxisSpacing: UIConstants.mainAxisSpacing,
+                crossAxisSpacing: UIConstants.crossAxisSpacing,
+                childAspectRatio: UIConstants.childAspectRatio,
               ),
               delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                   return Container(
                       alignment: Alignment.center,
-                      color: Colors.teal[100 * (index % 9)],
+                      color: Colors.teal[100 * (index % UIConstants.colorModBase)],
                       child: _setGridItemContent(index)
                   );
                 },
-                childCount: 10,
+                childCount: UIConstants.gridItemCount,
               ),
             ),
           ],

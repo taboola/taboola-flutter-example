@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:taboola_flutter_example/constants/publisher_params.dart';
+import 'package:taboola_flutter_example/constants/ui_constants.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_listener.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_unit.dart';
 import 'package:taboola_sdk_beta/taboola.dart';
+import 'package:taboola_flutter_example/constants/app_strings.dart';
 
 class CustomListViewPageFeedAndWidget extends StatefulWidget {
   const CustomListViewPageFeedAndWidget({Key? key}) : super(key: key);
@@ -17,9 +19,10 @@ class _CustomListViewPageFeedAndWidgetState
     extends State<CustomListViewPageFeedAndWidget> {
   late TBLClassicPage _classicPage;
   late ScrollController _scrollController;
-  late TBLClassicUnit _taboolaClassicUnit;
+  late TBLClassicUnit _taboolaClassicWidget;
   late TBLClassicUnit _taboolaClassicFeed;
-  final List<String> _items = List.generate(10, (index) => "Item $index");
+
+  final List<String> _items = List.generate(UIConstants.listLength, (index) => "Item $index");
 
   @override
   void initState() {
@@ -33,13 +36,13 @@ class _CustomListViewPageFeedAndWidgetState
         PublisherParams.pageUrl, PublisherParams.pageTypeArticle);
 
     // Create widget unit
-    _taboolaClassicUnit = _classicPage.build(
+    _taboolaClassicWidget = _classicPage.build(
       PublisherParams.midArticleWidgetPlacementName,
       PublisherParams.alternatingOneByTwoWidgetMode,
       false,
       TBLClassicListener(_taboolaDidResize, _taboolaDidShow,
           _taboolaDidFailToLoad, _taboolaDidClickOnItem),
-      viewId: 123,
+      viewId: UIConstants.widgetViewId,
       scrollController: _scrollController,
     );
 
@@ -50,10 +53,10 @@ class _CustomListViewPageFeedAndWidgetState
       true,
       TBLClassicListener(_taboolaDidResize, _taboolaDidShow,
           _taboolaDidFailToLoad, _taboolaDidClickOnItem),
-      viewId: 123333,
+      viewId: UIConstants.feedViewId,
       scrollController: _scrollController,
     );
-    _taboolaClassicUnit.fetchContent();
+    _taboolaClassicWidget.fetchContent();
     _taboolaClassicFeed.fetchContent();
   }
 
@@ -89,31 +92,31 @@ class _CustomListViewPageFeedAndWidgetState
   }
 
   Widget _setListContent(int index) {
-    if (index == 5) {
-      return _taboolaClassicUnit.getWidget;
+    if (index == UIConstants.widgetPosition) {
+      return _taboolaClassicWidget.getWidget;
     }
-    if (index == 9) {
+    if (index == UIConstants.feedPosition) {
       return _taboolaClassicFeed.getWidget;
     }
-    return Text('List item $index');
+    return Text('${AppStrings.listItemPrefix}$index');
   }
 
   Container _setContainer(int index) {
-    if (index == 5) {
+    if (index == UIConstants.widgetPosition) {
       return Container(
-          color: Colors.teal[100 * (index % 9)],
-          height: 300,
+          color: Colors.teal[100 * (index % UIConstants.colorModBase)],
+          height: UIConstants.widgetHeight,
           child: _setListContent(index));
-    } else if (index == 9) {
+    } else if (index == UIConstants.feedPosition) {
       return Container(
-          color: Colors.teal[100 * (index % 9)],
-          height: 1600,
+          color: Colors.teal[100 * (index % UIConstants.colorModBase)],
+          height: UIConstants.feedHeight,
           child: _setListContent(index));
     }
 
     return Container(
-        color: Colors.teal[100 * (index % 9)],
-        height: 200,
+        color: Colors.teal[100 * (index % UIConstants.colorModBase)],
+        height: UIConstants.defaultItemHeight,
         child: _setListContent(index));
   }
 
@@ -126,7 +129,7 @@ class _CustomListViewPageFeedAndWidgetState
             Navigator.of(context).pop();
           },
         ),
-        title: const Text("ListView Example"),
+        title: const Text(AppStrings.listViewExample),
       ),
       body: ListView.builder(
         controller: _scrollController,

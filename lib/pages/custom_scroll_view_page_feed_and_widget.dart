@@ -2,12 +2,13 @@
 
 import 'package:flutter/material.dart';
 
-
 import 'package:taboola_flutter_example/constants/publisher_params.dart';
+import 'package:taboola_flutter_example/constants/ui_constants.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_listener.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_page.dart';
 import 'package:taboola_sdk_beta/classic/tbl_classic_unit.dart';
 import 'package:taboola_sdk_beta/taboola.dart';
+import 'package:taboola_flutter_example/constants/app_strings.dart';
 
 class CustomScrollViewPageFeedAndWidget extends StatefulWidget {
   const CustomScrollViewPageFeedAndWidget({Key? key}) : super(key: key);
@@ -22,8 +23,6 @@ class _CustomScrollViewPageFeedAndWidgetState extends State<CustomScrollViewPage
   late TBLClassicUnit _taboolaClassicUnit;
   late TBLClassicListener _taboolaClassicListener;
   bool _shouldDisplayTaboolaFeed = false;
-
-  static const int viewID = 123;
 
   @override
   void initState() {
@@ -49,7 +48,7 @@ class _CustomScrollViewPageFeedAndWidgetState extends State<CustomScrollViewPage
         PublisherParams.feedMode,
         true,
         _taboolaClassicListener,
-        viewId: viewID
+        viewId: UIConstants.viewId
     );
 
     _taboolaClassicUnit = _classicPage.build(
@@ -57,7 +56,7 @@ class _CustomScrollViewPageFeedAndWidgetState extends State<CustomScrollViewPage
         PublisherParams.alternatingOneByTwoWidgetMode,
         false,
         _taboolaClassicListener,
-        viewId: viewID
+        viewId: UIConstants.viewId
     );
     _taboolaClassicUnit.fetchContent();
     _taboolaClassicFeed.fetchContent();
@@ -107,7 +106,7 @@ class _CustomScrollViewPageFeedAndWidgetState extends State<CustomScrollViewPage
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Sliver List with Widget & Feed"),
+          title: const Text(AppStrings.sliverListWithWidgetAndFeed),
         ),
         body: CustomScrollView(
           controller: _shouldDisplayTaboolaFeed
@@ -122,12 +121,12 @@ class _CustomScrollViewPageFeedAndWidgetState extends State<CustomScrollViewPage
                         (BuildContext context, int index) {
                       return Container(
                         alignment: Alignment.center,
-                        color: Colors.lightBlue[100 * (index % 9)],
-                        height: 50,
-                        child: Text('List Item $index'),
+                        color: Colors.lightBlue[100 * (index % UIConstants.colorModBase)],
+                        height: UIConstants.listItemHeight,
+                        child: Text('${AppStrings.listItemPrefix}$index'),
                       );
                     },
-                    childCount: 10
+                    childCount: UIConstants.listItemCount
                 )
             ),
             SliverToBoxAdapter(
@@ -148,8 +147,8 @@ class EmptyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         color: Colors.blue,
-        height: 100,
-        child: const Text("Feed Container"),
+        height: UIConstants.emptyWidgetHeight,
+        child: const Text(AppStrings.feedContainer),
         alignment: Alignment.center);
   }
 }

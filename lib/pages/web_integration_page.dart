@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:taboola_flutter_example/constants/ui_constants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:taboola_sdk_beta/taboola.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:taboola_flutter_example/constants/app_strings.dart';
+
 const String kLocalExamplePage = '''
 <html>
   <!DOCTYPE html>
@@ -77,19 +79,12 @@ class WebIntegrationPage extends StatefulWidget {
 class _WebIntegrationPageState extends State<WebIntegrationPage> {
   late final WebViewController _webViewController;
   late final TBLWebUnit _taboolaWebUnit;
-  final int LIST_LENGTH = 20;
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _webViewKey = GlobalKey();
-
-  // Style
-  final double CONTAINER_HEIGHT = 670;
-  final double LIST_ITEM_PADDING = 20.0;
 
   @override
   void initState() {
     super.initState();
-
-
 
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
@@ -136,25 +131,25 @@ class _WebIntegrationPageState extends State<WebIntegrationPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: const Text("Taboola Web Integration"),
+        title: const Text(AppStrings.taboolaWebIntegration),
       ),
       body: CustomScrollView(
         controller: _scrollController,
         slivers: <Widget>[
           SliverList(
-            delegate: SliverChildListDelegate(_buildList(LIST_LENGTH)),
+            delegate: SliverChildListDelegate(_buildList(UIConstants.webListLength)),
           ),
           SliverToBoxAdapter(
             child: Container(
               key: _webViewKey,
-              height: CONTAINER_HEIGHT,
+              height: UIConstants.webContainerHeight,
               child: WebViewWidget(
                 controller: _webViewController,
               ),
             ),
           ),
           SliverList(
-            delegate: SliverChildListDelegate(_buildList(LIST_LENGTH)),
+            delegate: SliverChildListDelegate(_buildList(UIConstants.webListLength)),
           )
         ],
       ),
@@ -166,9 +161,9 @@ class _WebIntegrationPageState extends State<WebIntegrationPage> {
     for (int i = 0; i < count; i++) {
       listItems.add(
         Padding(
-          padding: EdgeInsets.all(LIST_ITEM_PADDING),
+          padding: const EdgeInsets.all(UIConstants.listItemPadding),
           child: Text(
-            'Item $i',
+            '${AppStrings.itemPrefix}$i',
             style: const TextStyle(fontSize: 25.0),
           ),
         ),
@@ -180,19 +175,19 @@ class _WebIntegrationPageState extends State<WebIntegrationPage> {
   // Callback when the ad is shown
   void tblDidShow(String placement) {
     print("tblDidShow for placement: $placement");
-    _showToast("Ad shown for placement: $placement");
+    _showToast("${AppStrings.adShownMessage}$placement");
   }
 
   // Callback when the ad is resized
   void tblDidResize(String placement, double height) {
     print("Publisher did get height $height");
-    _showToast("Ad resized for placement: $placement to height: $height");
+    _showToast("${AppStrings.adResizedMessage}$placement${AppStrings.adResizedHeightMessage}$height");
   }
 
   // Callback when the ad fails to load
   void tblDidFailToLoad(String placement, String error) {
     print("Publisher placement: $placement did fail with error: $error");
-    _showToast("Ad load failed for placement: $placement\nError: $error");
+    _showToast("${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
   }
 
   // Callback when an item is clicked
@@ -201,11 +196,10 @@ class _WebIntegrationPageState extends State<WebIntegrationPage> {
     print(
         "Publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement; organic: $organic");
     if (organic) {
-      _showToast("Publisher opted to open click but didn't actually open it.");
+      _showToast(AppStrings.organicClickMessage);
       print("organic");
     } else {
-      _showToast(
-          "Publisher opted to open clicks but the item is Sponsored, SDK retains control.");
+      _showToast(AppStrings.sponsoredClickMessage);
       print("SC");
     }
     return false;
@@ -217,7 +211,7 @@ class _WebIntegrationPageState extends State<WebIntegrationPage> {
       SnackBar(
         content: Text(message),
         action: SnackBarAction(
-          label: 'OK',
+          label: AppStrings.okButton,
           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
         ),
       ),
