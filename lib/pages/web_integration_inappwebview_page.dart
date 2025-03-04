@@ -159,18 +159,18 @@ class _WebIntegrationInappWebviewPageState
 
   void _tblDidShow(String placement) {
     print("tblDidShow for placement: $placement");
-    _showToast("${AppStrings.adShownMessage}$placement");
+    _showSnackBar("${AppStrings.adShownMessage}$placement");
   }
 
   void _tblDidResize(String placement, double height) {
     print("Ad resized for placement $placement to height $height");
-    _showToast(
+    _showSnackBar(
         "${AppStrings.adResizedMessage}$placement${AppStrings.adResizedHeightMessage}$height");
   }
 
   void _tblDidFailToLoad(String placement, String error) {
     print("Ad failed to load for placement: $placement with error: $error");
-    _showToast(
+    _showSnackBar(
         "${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
   }
 
@@ -179,16 +179,16 @@ class _WebIntegrationInappWebviewPageState
     print(
         "Publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement of organic: $organic");
     if (organic) {
-      _showToast(AppStrings.organicClickMessage);
+      _showSnackBar(AppStrings.organicClickMessage);
       print("organic");
     } else {
-      _showToast(AppStrings.sponsoredClickMessage);
+      _showSnackBar(AppStrings.sponsoredClickMessage);
       print("SC");
     }
     return false;
   }
 
-  void _showToast(String message) {
+  void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),

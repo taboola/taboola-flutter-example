@@ -69,14 +69,14 @@ const String kLocalExamplePage = '''
 </html>
 ''';
 
-class WebIntegrationPage extends StatefulWidget {
-  const WebIntegrationPage({Key? key}) : super(key: key);
+class WebIntegrationFlutterWebview extends StatefulWidget {
+  const WebIntegrationFlutterWebview({Key? key}) : super(key: key);
 
   @override
-  State<WebIntegrationPage> createState() => _WebIntegrationPageState();
+  State<WebIntegrationFlutterWebview> createState() => _WebIntegrationFlutterWebviewState();
 }
 
-class _WebIntegrationPageState extends State<WebIntegrationPage> {
+class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebview> {
   late final WebViewController _webViewController;
   late final TBLWebUnit _taboolaWebUnit;
   final ScrollController _scrollController = ScrollController();
@@ -175,19 +175,19 @@ class _WebIntegrationPageState extends State<WebIntegrationPage> {
   // Callback when the ad is shown
   void tblDidShow(String placement) {
     print("tblDidShow for placement: $placement");
-    _showToast("${AppStrings.adShownMessage}$placement");
+    _showSnackBar("${AppStrings.adShownMessage}$placement");
   }
 
   // Callback when the ad is resized
   void tblDidResize(String placement, double height) {
     print("Publisher did get height $height");
-    _showToast("${AppStrings.adResizedMessage}$placement${AppStrings.adResizedHeightMessage}$height");
+    _showSnackBar("${AppStrings.adResizedMessage}$placement${AppStrings.adResizedHeightMessage}$height");
   }
 
   // Callback when the ad fails to load
   void tblDidFailToLoad(String placement, String error) {
     print("Publisher placement: $placement did fail with error: $error");
-    _showToast("${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
+    _showSnackBar("${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
   }
 
   // Callback when an item is clicked
@@ -196,17 +196,17 @@ class _WebIntegrationPageState extends State<WebIntegrationPage> {
     print(
         "Publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement; organic: $organic");
     if (organic) {
-      _showToast(AppStrings.organicClickMessage);
+      _showSnackBar(AppStrings.organicClickMessage);
       print("organic");
     } else {
-      _showToast(AppStrings.sponsoredClickMessage);
+      _showSnackBar(AppStrings.sponsoredClickMessage);
       print("SC");
     }
     return false;
   }
 
-  // Helper method to show a toast (SnackBar) message
-  void _showToast(String message) {
+  // Helper method to show a SnackBar message
+  void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),

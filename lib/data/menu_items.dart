@@ -23,7 +23,7 @@ class MenuItemRepository {
         MenuItemModel(
           title: AppStrings.menuItemWebIntegration,
           itemColor: AppColors.orange,
-          routeName: Routes.webIntegration,
+          routeName: Routes.webIntegrationFlutterWebview,
         ),
         MenuItemModel(
           title: AppStrings.menuItemWebIntegrationInappWebview,

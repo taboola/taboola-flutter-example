@@ -3,6 +3,6 @@ class Routes {
   static const String customScrollViewWidget = '/customscrollviewWidget';
   static const String customScrollViewFeedAndWidget = '/customscrollviewfeedAndWidget';
   static const String customListViewFeedAndWidget = '/customlistviewfeedAndWidget';
-  static const String webIntegration = '/webIntegration';
+  static const String webIntegrationFlutterWebview = '/webIntegrationFlutterWebview';
   static const String webIntegrationInappWebview = '/webIntegrationInappWebview';
 } 
