@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taboola_flutter_example/constants/ui_constants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:taboola_sdk_beta/taboola.dart';
+import 'package:taboola_sdk/taboola.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:taboola_flutter_example/constants/app_strings.dart';
 

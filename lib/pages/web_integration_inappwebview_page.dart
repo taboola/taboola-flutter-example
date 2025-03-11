@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:taboola_sdk_beta/taboola.dart';
+import 'package:taboola_sdk/taboola.dart';
 
 import 'package:taboola_flutter_example/constants/app_strings.dart';
 

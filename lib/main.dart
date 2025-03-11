@@ -8,7 +8,7 @@ import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dar
 import 'package:taboola_flutter_example/pages/home_page.dart';
 import 'package:taboola_flutter_example/pages/web_integration_inappwebview_page.dart';
 import 'package:taboola_flutter_example/pages/web_integration_flutter_webview.dart';
-import 'package:taboola_sdk_beta/taboola.dart';
+import 'package:taboola_sdk/taboola.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
