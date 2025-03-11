@@ -1,94 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:taboola_flutter_example/constants/app_strings.dart';
+import 'package:taboola_flutter_example/constants/publisher_params.dart';
+import 'package:taboola_flutter_example/constants/routes.dart';
 import 'package:taboola_flutter_example/pages/custom_list_view_page_widget.dart';
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_feed_and_widget.dart';
 import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dart';
-import 'package:taboola_flutter_example/widgets/menu_item.dart';
+import 'package:taboola_flutter_example/pages/home_page.dart';
+import 'package:taboola_flutter_example/pages/web_integration_inappwebview_page.dart';
+import 'package:taboola_flutter_example/pages/web_integration_flutter_webview.dart';
 import 'package:taboola_sdk/taboola.dart';
-
-import 'package:taboola_flutter_example/constants/publisher_params.dart';
-import 'data/menu_items.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Taboola.init(TBLPublisherInfo(PublisherParams.publisherName));
-  runApp(const MyApp());
+  runApp(const TaboolaExampleApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class TaboolaExampleApp extends StatelessWidget {
+  const TaboolaExampleApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: AppStrings.appTitle,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: Routes.home,
       routes: {
-        '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
-        '/customscrollviewWidget': (context) => const CustomScrollViewPageWidget(),
-        '/customscrollviewfeedAndWidget': (context) => const CustomScrollViewPageFeedAndWidget(),
-        '/customlistviewfeedAndWidget': (context) =>  const CustomListViewPageFeedAndWidget(),
+        Routes.home: (context) => const HomePage(),
+        Routes.customScrollViewWidget: (context) => const CustomScrollViewPageWidget(),
+        Routes.customScrollViewFeedAndWidget: (context) => const CustomScrollViewPageFeedAndWidget(),
+        Routes.customListViewFeedAndWidget: (context) => const CustomListViewPageFeedAndWidget(),
+        Routes.webIntegrationFlutterWebview: (context) => const WebIntegrationFlutterWebview(),
+        Routes.webIntegrationInappWebview: (context) => const WebIntegrationInappWebviewPage(),
       },
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    final menuItems = MenuItemRepository.getMenuItems();
-
-    return Scaffold(
-        body: CustomScrollView(
-      slivers: <Widget>[
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Image.asset(
-              'lib/assets/taboola-logo.png',
-              height: 100, // Adjust the height as needed
-            ),
-          ),
-        ),
-        const SliverAppBar(
-          pinned: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              'Taboola Flutter Plugin',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.all(20),
-          sliver: SliverFixedExtentList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: MainMenuItem(
-                  menuItems[index],
-                ),
-              ),
-              childCount: menuItems.length,
-            ),
-            itemExtent: 110,
-          ),
-        ),
-      ],
-    ));
   }
 }
