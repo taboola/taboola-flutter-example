@@ -117,6 +117,22 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
       ..loadHtmlString(kLocalExamplePage);
   }
 
+  WebViewWidget getWebViewWidget() {
+    WebViewWidget webViewWidget =
+        _webViewController.platform is AndroidWebViewController
+            ? WebViewWidget.fromPlatformCreationParams(
+                key: _webViewKey,
+                params: AndroidWebViewWidgetCreationParams
+                    .fromPlatformWebViewWidgetCreationParams(
+                  AndroidWebViewWidgetCreationParams(
+                    controller: _webViewController.platform,
+                  ),
+                  displayWithHybridComposition: true,
+                ))
+            : WebViewWidget(key: _webViewKey, controller: _webViewController);
+    return webViewWidget;
+  }
+
   @override
   void dispose() {
     _taboolaWebUnit.dispose();
@@ -144,15 +160,7 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
           SliverToBoxAdapter(
             child: Container(
               height: UIConstants.webContainerHeight,
-              child: WebViewWidget.fromPlatformCreationParams(
-                  key: _webViewKey,
-                  params: AndroidWebViewWidgetCreationParams
-                      .fromPlatformWebViewWidgetCreationParams(
-                    AndroidWebViewWidgetCreationParams(
-                      controller: _webViewController.platform,
-                    ),
-                    displayWithHybridComposition: true,
-                  )),
+              child: getWebViewWidget(),
             ),
           ),
           SliverList(
