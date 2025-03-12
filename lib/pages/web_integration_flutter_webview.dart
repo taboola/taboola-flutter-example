@@ -4,6 +4,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:taboola_sdk/taboola.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:taboola_flutter_example/constants/app_strings.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+
 
 const String kLocalExamplePage = '''
 <html>
@@ -141,11 +143,16 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
           ),
           SliverToBoxAdapter(
             child: Container(
-              key: _webViewKey,
               height: UIConstants.webContainerHeight,
-              child: WebViewWidget(
-                controller: _webViewController,
-              ),
+              child: WebViewWidget.fromPlatformCreationParams(
+                  key: _webViewKey,
+                  params: AndroidWebViewWidgetCreationParams
+                      .fromPlatformWebViewWidgetCreationParams(
+                    AndroidWebViewWidgetCreationParams(
+                      controller: _webViewController.platform,
+                    ),
+                    displayWithHybridComposition: true,
+                  )),
             ),
           ),
           SliverList(
