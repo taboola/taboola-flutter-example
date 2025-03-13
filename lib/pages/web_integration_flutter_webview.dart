@@ -129,7 +129,7 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
                   ),
                   // ** Notice: displayWithHybridComposition is set to true, to avoid issues **
                   // see github issue: https://github.com/flutter/flutter/issues/104889
-                  displayWithHybridComposition: false,
+                  displayWithHybridComposition: true,
                 ))
             : WebViewWidget(key: _webViewKey, controller: _webViewController);
     return webViewWidget;
