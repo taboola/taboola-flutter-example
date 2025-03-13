@@ -4,6 +4,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:taboola_sdk/taboola.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:taboola_flutter_example/constants/app_strings.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+
 
 const String kLocalExamplePage = '''
 <html>
@@ -115,6 +117,24 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
       ..loadHtmlString(kLocalExamplePage);
   }
 
+  WebViewWidget getWebViewWidget() {
+    WebViewWidget webViewWidget =
+        _webViewController.platform is AndroidWebViewController
+            ? WebViewWidget.fromPlatformCreationParams(
+                key: _webViewKey,
+                params: AndroidWebViewWidgetCreationParams
+                    .fromPlatformWebViewWidgetCreationParams(
+                  AndroidWebViewWidgetCreationParams(
+                    controller: _webViewController.platform,
+                  ),
+                  // ** Notice: displayWithHybridComposition is set to true, to avoid issues **
+                  // see github issue: https://github.com/flutter/flutter/issues/104889
+                  displayWithHybridComposition: true,
+                ))
+            : WebViewWidget(key: _webViewKey, controller: _webViewController);
+    return webViewWidget;
+  }
+
   @override
   void dispose() {
     _taboolaWebUnit.dispose();
@@ -141,11 +161,8 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
           ),
           SliverToBoxAdapter(
             child: Container(
-              key: _webViewKey,
               height: UIConstants.webContainerHeight,
-              child: WebViewWidget(
-                controller: _webViewController,
-              ),
+              child: getWebViewWidget(),
             ),
           ),
           SliverList(
