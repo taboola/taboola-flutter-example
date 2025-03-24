@@ -5,4 +5,5 @@ class Routes {
   static const String customListViewFeedAndWidget = '/customlistviewfeedAndWidget';
   static const String webIntegrationFlutterWebview = '/webIntegrationFlutterWebview';
   static const String webIntegrationInappWebview = '/webIntegrationInappWebview';
+  static const String webIntegrationTwoWebUnits = '/webIntegrationTwoWebUnits';
 } 

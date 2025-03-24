@@ -3,6 +3,7 @@ import 'package:taboola_flutter_example/constants/app_strings.dart';
 import 'package:taboola_flutter_example/constants/ui_constants.dart';
 import 'package:taboola_flutter_example/data/menu_items.dart';
 import 'package:taboola_flutter_example/widgets/menu_item.dart';
+import 'package:taboola_flutter_example/pages/web_integration_two_web_units_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

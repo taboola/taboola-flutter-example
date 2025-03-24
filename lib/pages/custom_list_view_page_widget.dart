@@ -3,10 +3,10 @@ import 'package:taboola_flutter_example/constants/publisher_params.dart';
 import 'package:taboola_flutter_example/constants/ui_constants.dart';
 
 import 'package:taboola_flutter_example/constants/app_strings.dart';
-import 'package:taboola_sdk/classic/tbl_classic_listener.dart';
-import 'package:taboola_sdk/classic/tbl_classic_page.dart';
-import 'package:taboola_sdk/classic/tbl_classic_unit.dart';
-import 'package:taboola_sdk/taboola.dart';
+import 'package:taboola_sdk_beta/classic/tbl_classic_listener.dart';
+import 'package:taboola_sdk_beta/classic/tbl_classic_page.dart';
+import 'package:taboola_sdk_beta/classic/tbl_classic_unit.dart';
+import 'package:taboola_sdk_beta/taboola.dart';
 
 class CustomListViewPageFeedAndWidget extends StatefulWidget {
   const CustomListViewPageFeedAndWidget({Key? key}) : super(key: key);

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:taboola_flutter_example/constants/ui_constants.dart';
+import 'package:taboola_flutter_example/utils/snack_bar_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:taboola_sdk/taboola.dart';
+import 'package:taboola_sdk_beta/taboola.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:taboola_flutter_example/constants/app_strings.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
-
 
 const String kLocalExamplePage = '''
 <html>
@@ -78,7 +78,8 @@ class WebIntegrationFlutterWebview extends StatefulWidget {
   State<WebIntegrationFlutterWebview> createState() => _WebIntegrationFlutterWebviewState();
 }
 
-class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebview> {
+class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebview>
+    with SnackBarMixin {
   late final WebViewController _webViewController;
   late final TBLWebUnit _taboolaWebUnit;
   final ScrollController _scrollController = ScrollController();
@@ -97,19 +98,14 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
     } else {
       params = const PlatformWebViewControllerCreationParams();
     }
-    _webViewController  = WebViewController.fromPlatformCreationParams(params);
+    _webViewController = WebViewController.fromPlatformCreationParams(params);
     // Create Taboola web listener
     TBLWebListener tblWebListener = TBLWebListener(
-      tblDidResize,
-      tblDidShow,
-      tblDidFailToLoad,
-      tblDidClickOnItem,
-    );
+        tblDidResize, tblDidShow, tblDidFailToLoad, tblDidClickOnItem, tblOnUpdateContentCompleted);
 
     // Initialize Taboola web page and unit
     TBLWebPage webPage = Taboola.getWebPage();
-    _taboolaWebUnit = webPage.buildWebUnit(
-        _webViewKey, _webViewController, tblWebListener,
+    _taboolaWebUnit = webPage.buildWebUnit(_webViewKey, _webViewController, tblWebListener,
         scrollController: _scrollController);
 
     _webViewController
@@ -118,20 +114,18 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
   }
 
   WebViewWidget getWebViewWidget() {
-    WebViewWidget webViewWidget =
-        _webViewController.platform is AndroidWebViewController
-            ? WebViewWidget.fromPlatformCreationParams(
-                key: _webViewKey,
-                params: AndroidWebViewWidgetCreationParams
-                    .fromPlatformWebViewWidgetCreationParams(
-                  AndroidWebViewWidgetCreationParams(
-                    controller: _webViewController.platform,
-                  ),
-                  // ** Notice: displayWithHybridComposition is set to true, to avoid issues **
-                  // see github issue: https://github.com/flutter/flutter/issues/104889
-                  displayWithHybridComposition: true,
-                ))
-            : WebViewWidget(key: _webViewKey, controller: _webViewController);
+    WebViewWidget webViewWidget = _webViewController.platform is AndroidWebViewController
+        ? WebViewWidget.fromPlatformCreationParams(
+            key: _webViewKey,
+            params: AndroidWebViewWidgetCreationParams.fromPlatformWebViewWidgetCreationParams(
+              AndroidWebViewWidgetCreationParams(
+                controller: _webViewController.platform,
+              ),
+              // ** Notice: displayWithHybridComposition is set to true, to avoid issues **
+              // see github issue: https://github.com/flutter/flutter/issues/104889
+              displayWithHybridComposition: true,
+            ))
+        : WebViewWidget(key: _webViewKey, controller: _webViewController);
     return webViewWidget;
   }
 
@@ -191,47 +185,33 @@ class _WebIntegrationFlutterWebviewState extends State<WebIntegrationFlutterWebv
 
   // Callback when the ad is shown
   void tblDidShow(String placement) {
-    print("tblDidShow for placement: $placement");
-    _showSnackBar("${AppStrings.adShownMessage}$placement");
+    showSnackBar("${AppStrings.adShownMessage}$placement");
   }
 
   // Callback when the ad is resized
   void tblDidResize(String placement, double height) {
-    print("Publisher did get height $height");
-    _showSnackBar("${AppStrings.adResizedMessage}$placement${AppStrings.adResizedHeightMessage}$height");
+    showSnackBar(
+        "${AppStrings.adResizedMessage}$placement${AppStrings.adResizedHeightMessage}$height");
   }
 
   // Callback when the ad fails to load
   void tblDidFailToLoad(String placement, String error) {
-    print("Publisher placement: $placement did fail with error: $error");
-    _showSnackBar("${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
+    showSnackBar("${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
   }
 
   // Callback when an item is clicked
-  bool tblDidClickOnItem(
-      String placement, String itemId, String clickUrl, bool organic) {
+  bool tblDidClickOnItem(String placement, String itemId, String clickUrl, bool organic) {
     print(
         "Publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement; organic: $organic");
     if (organic) {
-      _showSnackBar(AppStrings.organicClickMessage);
-      print("organic");
+      showSnackBar(AppStrings.organicClickMessage);
     } else {
-      _showSnackBar(AppStrings.sponsoredClickMessage);
-      print("SC");
+      showSnackBar(AppStrings.sponsoredClickMessage);
     }
     return false;
   }
 
-  // Helper method to show a SnackBar message
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        action: SnackBarAction(
-          label: AppStrings.okButton,
-          onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-        ),
-      ),
-    );
+  void tblOnUpdateContentCompleted() {
+    showSnackBar("Content update completed");
   }
-} 
+}
