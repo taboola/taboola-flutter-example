@@ -30,5 +30,10 @@ class MenuItemRepository {
           itemColor: AppColors.pink,
           routeName: Routes.webIntegrationInappWebview,
         ),
+        MenuItemModel(
+          title: AppStrings.menuItemWebIntegrationTwoWebUnits,
+          itemColor: AppColors.purple,
+          routeName: Routes.webIntegrationTwoWebUnits,
+        ),
       ];
 }

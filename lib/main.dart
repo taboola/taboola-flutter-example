@@ -8,7 +8,8 @@ import 'package:taboola_flutter_example/pages/custom_scroll_view_page_widget.dar
 import 'package:taboola_flutter_example/pages/home_page.dart';
 import 'package:taboola_flutter_example/pages/web_integration_inappwebview_page.dart';
 import 'package:taboola_flutter_example/pages/web_integration_flutter_webview.dart';
-import 'package:taboola_sdk/taboola.dart';
+import 'package:taboola_flutter_example/pages/web_integration_two_web_units_screen.dart';
+import 'package:taboola_sdk_beta/taboola.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class TaboolaExampleApp extends StatelessWidget {
         Routes.customListViewFeedAndWidget: (context) => const CustomListViewPageFeedAndWidget(),
         Routes.webIntegrationFlutterWebview: (context) => const WebIntegrationFlutterWebview(),
         Routes.webIntegrationInappWebview: (context) => const WebIntegrationInappWebviewPage(),
+        Routes.webIntegrationTwoWebUnits: (context) => const WebIntegrationTwoWebUnitsScreen(),
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:taboola_sdk/taboola.dart';
+import 'package:taboola_flutter_example/utils/snack_bar_utils.dart';
+import 'package:taboola_sdk_beta/taboola.dart';
 
 import 'package:taboola_flutter_example/constants/app_strings.dart';
 
@@ -95,12 +96,11 @@ class WebIntegrationInappWebviewPage extends StatefulWidget {
   const WebIntegrationInappWebviewPage({Key? key}) : super(key: key);
 
   @override
-  _WebIntegrationInappWebviewPageState createState() =>
-      _WebIntegrationInappWebviewPageState();
+  _WebIntegrationInappWebviewPageState createState() => _WebIntegrationInappWebviewPageState();
 }
 
-class _WebIntegrationInappWebviewPageState
-    extends State<WebIntegrationInappWebviewPage> {
+class _WebIntegrationInappWebviewPageState extends State<WebIntegrationInappWebviewPage>
+    with SnackBarMixin {
   final GlobalKey webViewKey = GlobalKey();
   InAppWebViewController? webViewController;
   late TBLWebUnit tblWebUnit;
@@ -135,12 +135,8 @@ class _WebIntegrationInappWebviewPageState
                 InAppWebView(
                   key: webViewKey,
                   onWebViewCreated: (inappwebviewController) async {
-                    TBLWebListener tblWebListener = TBLWebListener(
-                      _tblDidResize,
-                      _tblDidShow,
-                      _tblDidFailToLoad,
-                      _tblDidClickOnItem,
-                    );
+                    TBLWebListener tblWebListener = TBLWebListener(tblDidResize, tblDidShow,
+                        tblDidFailToLoad, tblDidClickOnItem, tblOnUpdateContentCompleted);
                     TBLWebPage webPage = Taboola.getWebPage();
                     tblWebUnit = webPage.buildWebUnit(
                       webViewKey,
@@ -157,46 +153,31 @@ class _WebIntegrationInappWebviewPageState
         ])));
   }
 
-  void _tblDidShow(String placement) {
-    print("tblDidShow for placement: $placement");
-    _showSnackBar("${AppStrings.adShownMessage}$placement");
+  void tblDidShow(String placement) {
+    showSnackBar("${AppStrings.adShownMessage}$placement");
   }
 
-  void _tblDidResize(String placement, double height) {
-    print("Ad resized for placement $placement to height $height");
-    _showSnackBar(
+  void tblDidResize(String placement, double height) {
+    showSnackBar(
         "${AppStrings.adResizedMessage}$placement${AppStrings.adResizedHeightMessage}$height");
   }
 
-  void _tblDidFailToLoad(String placement, String error) {
-    print("Ad failed to load for placement: $placement with error: $error");
-    _showSnackBar(
-        "${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
+  void tblDidFailToLoad(String placement, String error) {
+    showSnackBar("${AppStrings.adFailedMessage}$placement${AppStrings.adFailedErrorMessage}$error");
   }
 
-  bool _tblDidClickOnItem(
-      String placement, String itemId, String clickUrl, bool organic) {
+  bool tblDidClickOnItem(String placement, String itemId, String clickUrl, bool organic) {
     print(
         "Publisher did click on item: $itemId with clickUrl: $clickUrl in placement: $placement of organic: $organic");
     if (organic) {
-      _showSnackBar(AppStrings.organicClickMessage);
-      print("organic");
+      showSnackBar(AppStrings.organicClickMessage);
     } else {
-      _showSnackBar(AppStrings.sponsoredClickMessage);
-      print("SC");
+      showSnackBar(AppStrings.sponsoredClickMessage);
     }
     return false;
   }
 
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        action: SnackBarAction(
-          label: AppStrings.okButton,
-          onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-        ),
-      ),
-    );
+  void tblOnUpdateContentCompleted() {
+    showSnackBar("Content update completed");
   }
 }

@@ -13,6 +13,7 @@ class AppStrings {
   static const String listViewExample = "ListView Example";
   static const String taboolaWebIntegration = "Taboola Web Integration";
   static const String taboolaInAppWebViewIntegration = "Taboola InAppWebView Integration";
+  static const String taboolaTwoWebUnitsIntegration = "Taboola Two Web Units Integration";
   
   // Menu items
   static const String menuItemSliverListWidgetFeed = 'SliverList Widget + Feed';
@@ -20,6 +21,7 @@ class AppStrings {
   static const String menuItemListViewWidget = 'ListView Widget';
   static const String menuItemWebIntegration = 'Web Integration Flutter weview';
   static const String menuItemWebIntegrationInappWebview = 'Web Integration InappWebview';
+  static const String menuItemWebIntegrationTwoWebUnits = 'Web Integration Two Web Units';
   
   // Widget labels
   static const String feedContainer = "Feed Container";
