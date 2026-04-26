@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.taboola_flutter_example">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
    <application
         android:label="taboola_flutter_example"
         android:name="${applicationName}"

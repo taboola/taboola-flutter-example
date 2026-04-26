@@ -27,6 +27,7 @@ if (flutterVersionName == null) {
 
 
 android {
+    namespace "com.example.taboola_flutter_example"
     compileSdkVersion 34
 
     compileOptions {

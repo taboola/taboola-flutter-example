@@ -12,7 +12,7 @@ PODS:
     - Flutter
     - OrderedSet (~> 6.0.3)
   - OrderedSet (6.0.3)
-  - taboola_sdk (0.0.1):
+  - taboola_sdk_beta (0.0.1):
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
@@ -23,7 +23,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_custom_tabs_ios (from `.symlinks/plugins/flutter_custom_tabs_ios/ios`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
-  - taboola_sdk (from `.symlinks/plugins/taboola_sdk/ios`)
+  - taboola_sdk_beta (from `.symlinks/plugins/taboola_sdk_beta/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 SPEC REPOS:
@@ -39,20 +39,20 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_custom_tabs_ios/ios"
   flutter_inappwebview_ios:
     :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
-  taboola_sdk:
-    :path: ".symlinks/plugins/taboola_sdk/ios"
+  taboola_sdk_beta:
+    :path: ".symlinks/plugins/taboola_sdk_beta/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
-  cupertino_http: 1a3a0f163c1b26e7f1a293b33d476e0fde7a64ec
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_custom_tabs_ios: a651b18786388923b62de8c0537607de87c2eccf
-  flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
+  cupertino_http: 6c6bff76e2f6915cd6b22e0e6d2698309339ec46
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_custom_tabs_ios: dd647919edd75e82ba6b00009eb3460a28c011b8
+  flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  taboola_sdk: c805fb941843dd1c924014919780eb81f8b7521d
-  webview_flutter_wkwebview: a4af96a051138e28e29f60101d094683b9f82188
+  taboola_sdk_beta: b1a42d02307d19f18f17277f8960372f3a7cf27a
+  webview_flutter_wkwebview: 8ebf4fded22593026f7dbff1fbff31ea98573c8d
 
-PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011
+PODFILE CHECKSUM: 0dbd5a87e0ace00c9610d2037ac22083a01f861d
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
