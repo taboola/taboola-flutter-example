@@ -50,7 +50,7 @@ SPEC CHECKSUMS:
   flutter_custom_tabs_ios: dd647919edd75e82ba6b00009eb3460a28c011b8
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  taboola_sdk_beta: b1a42d02307d19f18f17277f8960372f3a7cf27a
+  taboola_sdk_beta: cd7afec2316a8fa89c52dc03191cad060128dfb6
   webview_flutter_wkwebview: 8ebf4fded22593026f7dbff1fbff31ea98573c8d
 
 PODFILE CHECKSUM: 0dbd5a87e0ace00c9610d2037ac22083a01f861d
